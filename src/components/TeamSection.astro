@@ -1,0 +1,15 @@
+---
+import Reveal from './islands/Reveal.tsx';
+import TeamGroupsLite from './islands/TeamGroupsLite.tsx';
+import { team } from '../data/team';
+---
+<section id="team" class="section-y relative overflow-hidden bg-cream-100">
+  <div class="container-x">
+    <div class="max-w-3xl">
+      <Reveal client:visible><p class="eyebrow">Meet the team</p></Reveal>
+      <Reveal client:visible delay={0.08}><h2 class="mt-5 text-4xl sm:text-5xl">Doctors of physical therapy who know your name</h2></Reveal>
+      <Reveal client:visible delay={0.14}><p class="mt-6 max-w-2xl text-lg text-ink-muted">Every visit is one-on-one with a licensed doctor. Pick a clinic to meet the people you could be working with.</p></Reveal>
+    </div>
+    <div class="mt-14 lg:mt-20"><TeamGroupsLite client:visible groups={team} /></div>
+  </div>
+</section>

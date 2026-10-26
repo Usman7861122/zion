@@ -1,0 +1,22 @@
+---
+import CornerMark from './CornerMark.astro';
+import Reveal from './islands/Reveal.tsx';
+import FocusList from './islands/FocusList.tsx';
+import { specialties } from '../data/care';
+---
+<section id="specialties" class="relative isolate section-y overflow-x-clip bg-forest-900 text-cream-50">
+  <CornerMark />
+  <div class="container-x">
+    <div class="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-28">
+      <div class="lg:sticky lg:top-40 lg:self-start">
+        <Reveal client:visible><p class="eyebrow-dark">Our focus</p></Reveal>
+        <Reveal client:visible delay={0.08}><h2 class="mt-5 text-4xl sm:text-5xl">Specialized one-on-one physical therapy</h2></Reveal>
+        <Reveal client:visible delay={0.16}>
+          <p class="mt-7 max-w-md text-lg text-sand-200">Dedicated care, faster results. Tell us what is holding you back and we will build the plan around you.</p>
+          <a href="#contact" class="btn-gold mt-9">Contact Us</a>
+        </Reveal>
+      </div>
+      <FocusList client:visible items={specialties} />
+    </div>
+  </div>
+</section>

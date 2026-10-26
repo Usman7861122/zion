@@ -1,0 +1,27 @@
+---
+import Reveal from './islands/Reveal.tsx';
+const shots = [
+  { src: '/images/real/gal-1.webp', alt: 'Front room of the clinic with mirror, step platforms and tall windows', cls: 'sm:col-span-2 sm:row-span-2' },
+  { src: '/images/real/gal-2.webp', alt: 'Zion Physical Therapy reception desk and sign', cls: '' },
+  { src: '/images/real/gal-3.webp', alt: 'Strength corner with rack, bench and weights', cls: '' },
+  { src: '/images/real/gal-4.webp', alt: 'Sunlit treatment room with tables and a support column', cls: 'sm:col-span-2' },
+  { src: '/images/real/gal-5.webp', alt: 'Waiting area with seating and hexagon wall panels', cls: '' },
+  { src: '/images/real/gal-6.webp', alt: 'Treatment table in front of the Zion neuron mural', cls: 'sm:col-span-2' },
+  { src: '/images/real/gal-7.webp', alt: 'Mirrored studio with stability balls and mobility tools', cls: '' },
+];
+---
+<section id="gallery" class="section-y bg-cream-50">
+  <div class="container-x">
+    <div class="mx-auto max-w-2xl text-center">
+      <Reveal client:visible><p class="eyebrow">Inside the clinic</p></Reveal>
+      <Reveal client:visible delay={0.08}><h2 class="mt-5 text-4xl sm:text-5xl">A calm place to get better</h2></Reveal>
+    </div>
+    <div class="mt-14 grid auto-rows-[220px] gap-3 sm:grid-cols-4 sm:auto-rows-[200px] lg:auto-rows-[240px]">
+      {shots.map((s, i) => (
+        <Reveal client:visible delay={(i % 4) * 0.07} className={`overflow-hidden rounded-xl ${s.cls}`}>
+          <img src={s.src} alt={s.alt} loading="lazy" decoding="async" class="size-full object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105" />
+        </Reveal>
+      ))}
+    </div>
+  </div>
+</section>

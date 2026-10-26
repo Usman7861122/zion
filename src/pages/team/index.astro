@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/islands/Header.tsx';
+import CornerMark from '../../components/CornerMark.astro';
+import Reveal from '../../components/islands/Reveal.tsx';
+import TeamAnchors from '../../components/islands/TeamAnchors.tsx';
+import ClosingCta from '../../components/ClosingCta.astro';
+import Footer from '../../components/Footer.astro';
+import StickyMobileBar from '../../components/StickyMobileBar.astro';
+import { site } from '../../data/site';
+import { categories } from '../../data/staff';
+
+const fix = (h: string) => (h.startsWith('#') ? '/' + h : h);
+const nav = site.nav.map((i) => ({ ...i, href: fix(i.href), children: i.children?.map((c) => ({ ...c, href: fix(c.href) })) }));
+const items = categories.map((c) => ({ id: c.id, label: c.tab, count: c.people.length }));
+const fallbackAddr = '241 E 86th St, Suite 2B, New York, NY 10028';
+const initials = (n: string) => n.split(' ').filter((w) => !/^Dr\.?$/.test(w)).map((w) => w[0]).slice(0, 2).join('');
+---
+<BaseLayout title="Meet Our Team of Physical Therapists | Zion Physical Therapy" description="Meet the doctors of physical therapy and care team at Zion Physical Therapy on the Upper East Side, Upper West Side, in Westport CT and Jersey City.">
+  <Header client:load nav={nav} phone={site.phone} phoneHref={site.phoneHref} bookingUrl={site.bookingUrl} />
+  <main id="content" class="pb-14 lg:pb-0">
+    <section class="relative isolate mt-[72px] overflow-hidden bg-forest-900 pb-16 pt-24 text-cream-50 sm:pb-20 sm:pt-32 lg:mt-[120px]">
+      <CornerMark />
+      <div class="container-x relative">
+        <nav aria-label="Breadcrumb" class="text-sm text-sand-200"><a href="/" class="hover:text-gold-300">Home</a> <span aria-hidden="true" class="mx-2 text-gold-300">/</span> <span>Meet the Team</span></nav>
+        <p class="eyebrow-dark mt-8">Our people</p>
+        <h1 class="mt-5 max-w-4xl text-5xl sm:text-7xl">Meet the Team</h1>
+        <p class="mt-6 max-w-2xl text-lg text-sand-200">Doctors of physical therapy and a friendly care team at every Zion clinic. Choose a clinic below to meet the people who work there.</p>
+      </div>
+    </section>
+
+    <TeamAnchors client:load items={items} />
+
+    {categories.map((c, ci) => {
+      const few = c.people.length <= 2;
+      const solo = c.people.length === 1;
+      return (
+      <section id={c.id} class={`scroll-mt-28 py-20 sm:py-28 ${ci % 2 === 0 ? 'bg-cream-50' : 'bg-cream-100'}`}>
+        <div class={`container-x ${few ? 'grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16' : ''}`}>
+          <div class={few ? 'lg:sticky lg:top-56 lg:self-start' : 'flex flex-col justify-between gap-6 lg:flex-row lg:items-end'}>
+            <div>
+              <Reveal client:visible><p class="eyebrow">{c.kicker}</p></Reveal>
+              <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">{c.title}</h2></Reveal>
+              {!few && (
+              <Reveal client:visible delay={0.12}>
+                {c.address && <address class="mt-6 max-w-sm text-lg not-italic text-ink-muted">{c.address}</address>}
+                
+              </Reveal>
+            )}
+            </div>
+            
+            {!few && <Reveal client:visible delay={0.16}><div class="flex flex-wrap gap-3">
+                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.address ?? fallbackAddr)}`} class="btn-primary min-w-[12.5rem] justify-center">Get directions</a>
+                  <a href={site.phoneHref} class="btn-outline min-w-[12.5rem] justify-center">Call us</a>
+                </div></Reveal>}
+            {few && (
+              <Reveal client:visible delay={0.12}>
+                <div class="hairline mt-8"></div>
+                {c.address && <address class="mt-8 max-w-sm text-lg not-italic text-ink-muted">{c.address}</address>}
+                <p class="mt-5 max-w-sm text-ink-muted">{c.address ? 'Every visit is one-on-one with a doctor of physical therapy.' : 'Here to help with scheduling, insurance and any questions before your visit.'}</p>
+                <div class="mt-8 flex flex-wrap gap-3">
+                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.address ?? fallbackAddr)}`} class="btn-primary min-w-[12.5rem] justify-center">Get directions</a>
+                  <a href={site.phoneHref} class="btn-outline min-w-[12.5rem] justify-center">Call us</a>
+                </div>
+              </Reveal>
+            )}
+          </div>
+
+          <div class={few ? 'flex min-w-0 flex-col gap-6' : 'mt-12'}>
+            <Reveal client:visible>
+              <div class="grid overflow-hidden rounded-2xl bg-forest-900 text-cream-50 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+                <div class="flex flex-col justify-center p-8 sm:p-10 lg:p-12">
+                  <p class="eyebrow-dark">About this clinic</p>
+                  <p class="mt-5 text-xl font-light leading-relaxed text-cream-50 sm:text-2xl">{c.intro}</p>
+                  <ul class="mt-7 flex flex-wrap gap-2">
+                    {c.points.map((t) => <li class="rounded-md border border-gold-300/40 px-3 py-1 text-sm text-gold-300">{t}</li>)}
+                  </ul>
+                </div>
+                <div class="min-h-64 md:min-h-full">
+                  <img src={c.photo} alt={c.alt} width="1200" height="800" loading="lazy" class="size-full object-cover" />
+                </div>
+              </div>
+            </Reveal>
+          <ul class={`${few ? '' : 'mt-6'} grid gap-6 ${solo ? '' : 'sm:grid-cols-2'} ${few ? '' : c.people.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}>
+            {c.people.map((p, i) => (
+              <li class="flex">
+                <Reveal client:visible delay={(i % 4) * 0.08} className="flex w-full">
+                  <article class={`group relative flex w-full flex-col rounded-xl border border-sand-300/70 bg-cream-50 p-3 transition-all duration-500 hover:-translate-y-2 hover:border-gold-500/70 hover:shadow-[0_30px_70px_-30px_rgba(16,33,27,0.45)] motion-reduce:hover:translate-y-0 sm:p-4 ${solo ? 'sm:flex-row sm:gap-6' : ''}`}>
+                    <div class={`aspect-[4/5] overflow-hidden rounded-lg bg-forest-900 ${solo ? 'sm:w-1/2 sm:shrink-0' : ''}`}>
+                      {p.photo
+                        ? <img src={p.photo} alt={`Portrait of ${p.name}`} width="800" height="1000" loading="lazy" class="size-full object-cover transition-transform duration-[1200ms] group-hover:scale-105" />
+                        : <div class="grid size-full place-items-center text-6xl font-light text-gold-300" aria-hidden="true">{initials(p.name)}</div>}
+                    </div>
+                    <div class={`flex flex-1 flex-col px-2 pb-2 pt-6 ${solo ? 'sm:justify-center sm:pt-2' : ''}`}>
+                      <h3 class={`text-2xl text-forest-900 transition-colors duration-300 group-hover:text-gold-700 ${c.people.length >= 4 ? 'lg:min-h-[4.5rem]' : ''}`}>{p.slug ? <a href={p.href} class="after:absolute after:inset-0 after:content-[''] focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold-700">{p.name}</a> : p.name}</h3>
+                      <ul class={`mt-3 flex flex-wrap content-start gap-1.5 ${solo ? '' : 'min-h-[3.25rem]'}`} aria-label="Credentials">
+                        {p.creds.map((cr) => <li class="rounded-md border border-sand-300 px-2.5 py-0.5 text-xs text-forest-800 transition-colors duration-300 group-hover:border-gold-500 group-hover:bg-gold-300/30">{cr}</li>)}
+                      </ul>
+                      <p class={`mt-2 text-sm font-medium uppercase tracking-[0.12em] text-gold-700 ${solo ? '' : 'min-h-[2.75rem]'}`}>{p.role}</p>
+                    </div>
+                  </article>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+          </div>
+        </div>
+      </section>
+      );
+    })}
+
+    <ClosingCta />
+  </main>
+  <Footer />
+  <StickyMobileBar />
+</BaseLayout>

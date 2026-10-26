@@ -1,0 +1,40 @@
+---
+import PageShell from '../components/PageShell.astro';
+import Prose from '../components/Prose.astro';
+import { site } from '../data/site';
+---
+<PageShell title="Notice of Privacy Practices (HIPAA) | Zion Physical Therapy" description="How Zion Physical Therapy may use and share your health information, and how you can get access to it." crumb="Notice of Privacy Practices" eyebrow="Legal" h1="Notice of Privacy Practices" lede="This notice describes how health information about you may be used and shared, and how you can get access to it. Please review it carefully." cta={false}>
+  <Prose updated="October 26, 2026">
+    <h2>Our duties</h2>
+    <p>We are required by law to keep your protected health information private, to give you this notice, and to follow the terms of the notice currently in effect. We will tell you if there is a breach that affects your information.</p>
+
+    <h2>How we may use and share your information</h2>
+    <ul>
+      <li><strong>Treatment.</strong> We share information among our team and with your other providers to care for you, for example with your referring doctor.</li>
+      <li><strong>Payment.</strong> We use and share information to bill your insurance and get paid for our services.</li>
+      <li><strong>Health care operations.</strong> We use information to run our practice, train staff and improve quality.</li>
+      <li><strong>Appointment reminders and contact.</strong> We may contact you about appointments, using the details you give us.</li>
+      <li><strong>As required by law.</strong> This includes public health reporting, safety, legal proceedings, health oversight and law enforcement requests that the law allows.</li>
+    </ul>
+    <p>For other uses, such as marketing or most sharing of notes from counseling, we need your written permission. You may cancel that permission in writing at any time.</p>
+
+    <h2>Your rights</h2>
+    <ul>
+      <li><strong>See and copy</strong> your record, usually within 30 days of your request.</li>
+      <li><strong>Ask for a correction</strong> if you think something is wrong or incomplete.</li>
+      <li><strong>Ask for private communication</strong> by another method or at another address.</li>
+      <li><strong>Ask us to limit</strong> some uses and sharing. We are not always able to agree, but we must agree if you pay for a service in full yourself and ask us not to tell your health plan.</li>
+      <li><strong>Get a list</strong> of certain times we have shared your information.</li>
+      <li><strong>Get a paper copy</strong> of this notice at any time.</li>
+    </ul>
+
+    <h2>Complaints</h2>
+    <p>If you believe your privacy rights have been violated, you may file a complaint with us or with the U.S. Department of Health and Human Services Office for Civil Rights. We will not retaliate against you for filing a complaint.</p>
+
+    <h2>Changes to this notice</h2>
+    <p>We may change this notice and the change may apply to information we already hold. The current notice is always available on this page and at our clinics.</p>
+
+    <h2>Contact</h2>
+    <p>To use your rights or ask a question, call <a href={site.phoneHref}>{site.phone}</a> or visit any of our <a href="/locations">clinics</a>. Our website practices are described in our <a href="/privacy-policy">Privacy Policy</a>.</p>
+  </Prose>
+</PageShell>

@@ -1,0 +1,27 @@
+---
+import PageShell from '../components/PageShell.astro';
+import Prose from '../components/Prose.astro';
+import { site } from '../data/site';
+---
+<PageShell title="Accessibility Statement | Zion Physical Therapy" description="Our commitment to making the Zion Physical Therapy website usable by everyone, and how to reach us if you need help." crumb="Accessibility" eyebrow="Legal" h1="Accessibility Statement" lede="We want everyone to be able to use our website and our clinics." cta={false}>
+  <Prose updated="October 26, 2026">
+    <h2>Our commitment</h2>
+    <p>{site.name} is working to make this website easy to use for people of all abilities, including people who use screen readers, keyboards or voice control. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.1, level AA.</p>
+
+    <h2>What we do</h2>
+    <ul>
+      <li>Use clear headings, labels and link text.</li>
+      <li>Support keyboard use, with a “skip to content” link and visible focus.</li>
+      <li>Provide text descriptions for meaningful images.</li>
+      <li>Keep text contrast high and let you resize text.</li>
+      <li>Respect the “reduce motion” setting on your device.</li>
+    </ul>
+
+    <h2>Known limits</h2>
+    <p>Some parts of the site, such as embedded maps and content from other providers, may not be fully accessible. We are working to improve them.</p>
+
+    <h2>Need help or want to give feedback?</h2>
+    <p>If you have trouble using any part of this site, or need information in another format, please tell us. Call <a href={site.phoneHref}>{site.phone}</a> or use our <a href="/contact">contact page</a>, and we will help you or find another way to get you what you need.</p>
+    <p>If you need an accommodation for a visit, please let us know when you book.</p>
+  </Prose>
+</PageShell>

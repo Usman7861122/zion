@@ -1,0 +1,24 @@
+---
+import Reveal from './islands/Reveal.tsx';
+const shots = [
+  { src: '/images/gallery/reception-marble.webp', alt: 'Modern physiotherapy reception with marble details', cls: 'sm:col-span-2 sm:row-span-2' },
+  { src: '/images/gallery/hands-on.webp', alt: 'Physiotherapist treating a patient with back pain', cls: '' },
+  { src: '/images/gallery/reception.webp', alt: 'Clean, bright clinic reception area', cls: '' },
+  { src: '/images/gallery/movement.webp', alt: 'Senior patient doing guided physical exercises', cls: 'sm:col-span-2' },
+];
+---
+<section id="gallery" class="section-y bg-cream-50">
+  <div class="container-x">
+    <div class="mx-auto max-w-2xl text-center">
+      <Reveal client:visible><p class="eyebrow">Inside the clinic</p></Reveal>
+      <Reveal client:visible delay={0.08}><h2 class="mt-5 text-4xl sm:text-5xl">A calm place to get better</h2></Reveal>
+    </div>
+    <div class="mt-14 grid auto-rows-[220px] gap-3 sm:grid-cols-4 sm:auto-rows-[200px] lg:auto-rows-[230px]">
+      {shots.map((s, i) => (
+        <Reveal client:visible delay={i * 0.07} className={`overflow-hidden rounded-xl ${s.cls}`}>
+          <img src={s.src} alt={s.alt} loading="lazy" decoding="async" class="size-full object-cover transition-transform duration-[1400ms] ease-[var(--ease-luxe)] hover:scale-105" />
+        </Reveal>
+      ))}
+    </div>
+  </div>
+</section>

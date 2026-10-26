@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/islands/Header.tsx';
+import CornerMark from '../components/CornerMark.astro';
+import Reveal from '../components/islands/Reveal.tsx';
+import ContactForm from '../components/islands/ContactForm.tsx';
+import Footer from '../components/Footer.astro';
+import StickyMobileBar from '../components/StickyMobileBar.astro';
+import { site, locations, mapsUrl } from '../data/site';
+
+const fix = (h: string) => (h.startsWith('#') ? '/' + h : h);
+const nav = site.nav.map((i) => ({ ...i, href: fix(i.href), children: i.children?.map((c) => ({ ...c, href: fix(c.href) })) }));
+const pages: Record<string, string> = { 'Upper East Side': '/locations/upper-east-side' };
+---
+<BaseLayout title="Contact Zion Physical Therapy | Manhattan, Jersey City & Westport" description="Call, message or visit Zion Physical Therapy. Four clinics: Upper East Side, Upper West Side, Jersey City and Westport. In person and telehealth.">
+  <Header client:load nav={nav} phone={site.phone} phoneHref={site.phoneHref} bookingUrl={site.bookingUrl} />
+  <main id="content" class="pb-14 lg:pb-0">
+    <section class="relative isolate mt-[72px] overflow-hidden bg-forest-900 pb-16 pt-24 text-cream-50 sm:pb-20 sm:pt-32 lg:mt-[120px]">
+      <CornerMark />
+      <div class="container-x relative">
+        <nav aria-label="Breadcrumb" class="text-sm text-sand-200"><a href="/" class="hover:text-gold-300">Home</a> <span aria-hidden="true" class="mx-2 text-gold-300">/</span> <span>Contact</span></nav>
+        <p class="eyebrow-dark mt-8">Contact</p>
+        <h1 class="mt-5 max-w-4xl text-5xl sm:text-7xl">Get in <span class="text-gold-300">touch</span> with us</h1>
+        <p class="mt-6 max-w-2xl text-lg text-sand-200">Have questions or want to schedule an appointment? Our friendly team will guide you and connect you with the right physical therapist, in person or by telehealth.</p>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href={site.phoneHref} class="btn-gold min-w-[12.5rem] justify-center">Call {site.phone}</a>
+          <a href="#message" class="btn-outline-light min-w-[12.5rem] justify-center">Send a message</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="message" class="scroll-mt-28 bg-cream-100 py-20 sm:py-28">
+      <div class="container-x grid gap-14 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20">
+        <div>
+          <Reveal client:visible><p class="eyebrow">Reach us</p></Reveal>
+          <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">We would love to hear from you</h2></Reveal>
+          <ul class="mt-10 grid gap-4">
+            <li class="rounded-xl border border-sand-300/70 bg-cream-50 p-6"><p class="text-sm font-medium uppercase tracking-[0.16em] text-gold-700">Call</p><a href={site.phoneHref} class="mt-2 block text-2xl font-light text-forest-900 hover:text-gold-700">{site.phone}</a></li>
+            <li class="rounded-xl border border-sand-300/70 bg-cream-50 p-6"><p class="text-sm font-medium uppercase tracking-[0.16em] text-gold-700">Fax</p><p class="mt-2 text-2xl font-light text-forest-900">{site.fax}</p></li>
+            <li class="rounded-xl border border-sand-300/70 bg-cream-50 p-6">
+              <p class="text-sm font-medium uppercase tracking-[0.16em] text-gold-700">Follow us</p>
+              <ul class="mt-4 flex flex-wrap gap-2">
+                {site.social.map((s) => <li><a href={s.href} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center rounded-lg border border-sand-300 px-4 text-forest-900 transition-colors hover:border-forest-900 hover:bg-forest-900 hover:text-cream-50">{s.label}<span class="sr-only"> (opens in a new tab)</span></a></li>)}
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <Reveal client:visible delay={0.1}>
+          <div class="rounded-2xl border border-forest-900/10 bg-cream-50 p-6 sm:p-10">
+            <ContactForm client:visible endpoint={site.contactEndpoint} locations={locations.map((l) => l.name)} />
+          </div>
+        </Reveal>
+      </div>
+    </section>
+
+    <section class="bg-cream-50 py-20 sm:py-28">
+      <div class="container-x">
+        <Reveal client:visible><p class="eyebrow">Our clinics</p></Reveal>
+        <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">Visit us in person</h2></Reveal>
+        <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {locations.map((l, i) => (
+            <li class="flex">
+              <Reveal client:visible delay={(i % 4) * 0.08} className="flex w-full">
+                <article class="flex w-full flex-col rounded-xl border border-sand-300/70 bg-cream-100 p-7">
+                  <p class="eyebrow">{l.area}</p>
+                  <h3 class="mt-3 text-2xl text-forest-900">{l.name}</h3>
+                  <address class="mt-3 flex-1 not-italic text-ink-muted">{l.lines.join(', ')}</address>
+                  <div class="mt-6 grid gap-3">
+                    <a href={mapsUrl(l)} class="btn-primary justify-center">Get directions</a>
+                    {pages[l.name] ? <a href={pages[l.name]} class="btn-outline justify-center">Clinic page</a> : <a href={site.phoneHref} class="btn-outline justify-center">Call us</a>}
+                  </div>
+                </article>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <StickyMobileBar />
+</BaseLayout>

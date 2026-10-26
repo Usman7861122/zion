@@ -1,0 +1,14 @@
+---
+import Reveal from './islands/Reveal.tsx';
+import Testimonials from './islands/Testimonials.tsx';
+import { testimonials } from '../data/testimonials';
+---
+<section id="testimonials" class="section-y bg-forest-900 text-cream-50">
+  <div class="container-x">
+    <div class="mb-14 text-center">
+      <Reveal client:visible><p class="eyebrow-dark">What our clients say</p></Reveal>
+      <Reveal client:visible delay={0.08}><h2 class="mt-5 text-4xl sm:text-5xl">Trusted by people like you</h2></Reveal>
+    </div>
+    <Testimonials client:visible items={testimonials} />
+  </div>
+</section>

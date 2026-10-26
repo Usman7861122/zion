@@ -1,0 +1,45 @@
+---
+import PageShell from '../components/PageShell.astro';
+import Prose from '../components/Prose.astro';
+import { site } from '../data/site';
+---
+<PageShell title="Terms & Conditions | Zion Physical Therapy" description="The terms that apply when you use the Zion Physical Therapy website." crumb="Terms & Conditions" eyebrow="Legal" h1="Terms & Conditions" lede="Please read these terms before using our website. By using the site, you agree to them." cta={false}>
+  <Prose updated="October 26, 2026">
+    <h2>About these terms</h2>
+    <p>These terms apply to your use of this website, run by {site.name} (“we”, “us”). They do not replace the consent and policy forms you sign as a patient.</p>
+
+    <h2>Information on this site is not medical advice</h2>
+    <p>Content on this website is for general information. It does not replace advice, diagnosis or treatment from a licensed health professional. Do not ignore professional advice, or delay getting it, because of something you read here.</p>
+    <p><strong>If you think you are having a medical emergency, call 911 or go to the nearest emergency room.</strong></p>
+
+    <h2>No patient relationship through the site</h2>
+    <p>Using this website, sending a message or filling in a form does not create a therapist-patient relationship. That relationship begins only after an evaluation by one of our clinicians.</p>
+
+    <h2>Appointments</h2>
+    <p>Requests for appointments through the site are not confirmed until we contact you. Cancellation and insurance policies are explained when you book. Please call us if you have questions.</p>
+
+    <h2>Using the website</h2>
+    <p>You agree to use the site lawfully. You must not try to interfere with the site, access it without permission, copy it by automated means or send harmful code.</p>
+
+    <h2>Our content</h2>
+    <p>The text, images, logos and design on this site belong to us or our licensors and are protected by law. You may view and print pages for your personal use. You may not copy, sell or reuse them without our written permission.</p>
+
+    <h2>Links to other sites</h2>
+    <p>We may link to other websites. We do not control them and are not responsible for their content.</p>
+
+    <h2>Accuracy</h2>
+    <p>We work to keep information correct and up to date, but we do not promise it is complete or error-free. Hours, services and staff may change.</p>
+
+    <h2>Limits of liability</h2>
+    <p>To the fullest extent the law allows, we are not liable for losses that come from using this website or relying on its content. Nothing in these terms limits liability that cannot be limited by law.</p>
+
+    <h2>Changes</h2>
+    <p>We may change these terms. The date at the top shows the latest version. Using the site after a change means you accept it.</p>
+
+    <h2>Governing law</h2>
+    <p>These terms are governed by the laws of the State of New York, without regard to conflict of law rules.</p>
+
+    <h2>Contact</h2>
+    <p>Questions? Call <a href={site.phoneHref}>{site.phone}</a> or use our <a href="/contact">contact page</a>. See also our <a href="/privacy-policy">Privacy Policy</a>.</p>
+  </Prose>
+</PageShell>

@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/islands/Header.tsx';
+import CornerMark from '../components/CornerMark.astro';
+import ClosingCta from '../components/ClosingCta.astro';
+import Footer from '../components/Footer.astro';
+import StickyMobileBar from '../components/StickyMobileBar.astro';
+import { site } from '../data/site';
+import { reviews } from '../data/reviews';
+import ReviewsList from '../components/islands/ReviewsList.tsx';
+
+// On this page the in-page anchors must point back to the home page.
+const fix = (h: string) => (h.startsWith('#') ? '/' + h : h);
+const nav = site.nav.map((i) => ({ ...i, href: fix(i.href), children: i.children?.map((c) => ({ ...c, href: fix(c.href) })) }));
+---
+<BaseLayout title="Patient Reviews & Testimonials | Zion Physical Therapy" description="Read what patients say about one-on-one physical therapy at Zion Physical Therapy in Manhattan, Jersey City and Westport.">
+  <Header client:load nav={nav} phone={site.phone} phoneHref={site.phoneHref} bookingUrl={site.bookingUrl} />
+  <main id="content" class="pb-14 lg:pb-0">
+    <!-- Page intro -->
+    <section class="relative isolate mt-[72px] overflow-hidden bg-forest-900 pb-20 pt-24 text-cream-50 sm:pb-28 sm:pt-32 lg:mt-[120px]">
+      <CornerMark />
+      <div class="container-x relative">
+        <nav aria-label="Breadcrumb" class="text-sm text-sand-200"><a href="/" class="hover:text-gold-300">Home</a> <span aria-hidden="true" class="mx-2 text-gold-300">/</span> <span>Testimonials</span></nav>
+        <p class="eyebrow-dark mt-8">Patient stories</p>
+        <h1 class="mt-5 max-w-4xl text-5xl sm:text-7xl">Kind words from the people we treat</h1>
+        <p class="mt-6 max-w-2xl text-lg text-sand-200">Real care is personal. Here is what patients say about their time with our doctors of physical therapy and our front desk team.</p>
+        <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+          <a href={site.bookingUrl} class="btn-gold btn-book">Book Appointment</a>
+          <a href={site.phoneHref} class="btn-outline-light">{site.phone}</a>
+        </div>
+      </div>
+    </section>
+
+    <ReviewsList client:load reviews={reviews} />
+
+    <ClosingCta />
+  </main>
+  <Footer />
+  <StickyMobileBar />
+</BaseLayout>

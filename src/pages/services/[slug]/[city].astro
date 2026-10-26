@@ -1,0 +1,7 @@
+---
+import ServicePage from '../../../components/ServicePage.astro';
+import { services, cities } from '../../../data/serviceContent';
+export function getStaticPaths() { return services.flatMap((s) => cities.map((city) => ({ params: { slug: s.slug, city: city.slug }, props: { s, city } }))); }
+const { s, city } = Astro.props;
+---
+<ServicePage s={s} city={city} />

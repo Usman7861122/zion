@@ -1,0 +1,66 @@
+---
+import PageShell from '../components/PageShell.astro';
+import Prose from '../components/Prose.astro';
+import { site } from '../data/site';
+---
+<PageShell title="Privacy Policy | Zion Physical Therapy" description="How Zion Physical Therapy collects, uses and protects information when you visit our website, contact us or book an appointment." crumb="Privacy Policy" eyebrow="Legal" h1="Privacy Policy" lede="We respect your privacy. This page explains what we collect on this website, why, and the choices you have." cta={false}>
+  <Prose updated="October 26, 2026">
+    <h2>Who we are</h2>
+    <p>This website is run by {site.name} (“we”, “us”). We provide physical therapy at clinics on the Upper East Side and Upper West Side of Manhattan, in Jersey City, New Jersey, and in Westport, Connecticut. You can reach us at <a href={site.phoneHref}>{site.phone}</a>.</p>
+
+    <h2>What this policy covers</h2>
+    <p>This policy covers information we collect through this website. Health information we collect when you are our patient is protected by the Health Insurance Portability and Accountability Act (HIPAA) and is described in our <a href="/notice-of-privacy-practices">Notice of Privacy Practices</a>.</p>
+    <p>Please do not send detailed medical information through the website contact form or by regular email. To discuss your care, call us.</p>
+
+    <h2>Information we collect</h2>
+    <ul>
+      <li><strong>Information you give us.</strong> When you use a contact or booking form, we receive your name, email address, phone number and the message you write.</li>
+      <li><strong>Information collected automatically.</strong> Our site and our service providers may collect your device type, browser, approximate location from your IP address, the pages you visit and how you arrived. We collect some of this only if you allow it in our cookie settings.</li>
+      <li><strong>Cookies.</strong> See “Cookies” below.</li>
+    </ul>
+
+    <h2>How we use information</h2>
+    <ul>
+      <li>To answer your questions and schedule appointments.</li>
+      <li>To run, secure and improve the website.</li>
+      <li>To understand which pages are helpful, in grouped form.</li>
+      <li>To measure our advertising, if you allow marketing cookies.</li>
+      <li>To meet legal duties.</li>
+    </ul>
+    <p>We do not sell your personal information.</p>
+
+    <h2>Cookies</h2>
+    <p>Cookies are small files stored on your device. We use these groups:</p>
+    <ul>
+      <li><strong>Strictly necessary:</strong> needed for security, forms and basic features. Always on.</li>
+      <li><strong>Preferences:</strong> remember your choices.</li>
+      <li><strong>Analytics:</strong> help us understand how the site is used.</li>
+      <li><strong>Marketing:</strong> help us measure ads and show relevant information on other sites.</li>
+    </ul>
+    <p>You can accept, reject or customize cookies at any time using <button type="button" class="font-medium text-forest-900 underline decoration-gold-500 underline-offset-4 hover:text-gold-700" onclick="window.dispatchEvent(new CustomEvent('zion:open-cookie-settings'))">Cookie settings</button>. You can also block cookies in your browser, but some features may not work.</p>
+
+    <h2>Who we share information with</h2>
+    <p>We share information only with trusted service providers who help us run the website, email, scheduling and analytics, and only as needed for those tasks. We may also share information when the law requires it or to protect the safety of our patients and team.</p>
+
+    <h2>How long we keep information</h2>
+    <p>We keep website messages and form details only as long as needed to respond and to meet legal and business needs. Patient records are kept according to law.</p>
+
+    <h2>Security</h2>
+    <p>We use reasonable safeguards to protect information. No method of sending or storing data is completely secure, so we cannot promise absolute security.</p>
+
+    <h2>Your choices and rights</h2>
+    <p>You can ask us to see, correct or delete the personal information we hold from this website, or to stop marketing messages. Depending on where you live, you may have additional privacy rights. Contact us and we will respond as the law requires.</p>
+
+    <h2>Children</h2>
+    <p>This website is meant for adults. We do not knowingly collect information from children under 13 through the website.</p>
+
+    <h2>Links to other sites</h2>
+    <p>Our site links to other sites, such as social networks and maps. Those sites have their own privacy practices.</p>
+
+    <h2>Changes</h2>
+    <p>We may update this policy. The date at the top shows the latest version.</p>
+
+    <h2>Contact</h2>
+    <p>Questions? Call <a href={site.phoneHref}>{site.phone}</a> or use our <a href="/contact">contact page</a>.</p>
+  </Prose>
+</PageShell>

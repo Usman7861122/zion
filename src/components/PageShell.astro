@@ -1,0 +1,32 @@
+---
+// Shared frame for simple pages: header, dark title band, content slot, closing CTA, footer.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './islands/Header.tsx';
+import CornerMark from './CornerMark.astro';
+import ClosingCta from './ClosingCta.astro';
+import Footer from './Footer.astro';
+import StickyMobileBar from './StickyMobileBar.astro';
+import { site } from '../data/site';
+interface Props { title: string; description: string; crumb: string; eyebrow: string; h1: string; lede?: string; cta?: boolean; noindex?: boolean }
+const { title, description, crumb, eyebrow, h1, lede, cta = true, noindex = false } = Astro.props;
+const fix = (h: string) => (h.startsWith('#') ? '/' + h : h);
+const nav = site.nav.map((i) => ({ ...i, href: fix(i.href), children: i.children?.map((c) => ({ ...c, href: fix(c.href) })) }));
+---
+<BaseLayout title={title} description={description} noindex={noindex}>
+  <Header client:load nav={nav} phone={site.phone} phoneHref={site.phoneHref} bookingUrl={site.bookingUrl} />
+  <main id="content" class="pb-14 lg:pb-0">
+    <section class="relative isolate mt-[72px] overflow-hidden bg-forest-900 pb-16 pt-24 text-cream-50 sm:pb-20 sm:pt-32 lg:mt-[120px]">
+      <CornerMark />
+      <div class="container-x relative">
+        <nav aria-label="Breadcrumb" class="text-sm text-sand-200"><a href="/" class="hover:text-gold-300">Home</a> <span aria-hidden="true" class="mx-2 text-gold-300">/</span> <span>{crumb}</span></nav>
+        <p class="eyebrow-dark mt-8">{eyebrow}</p>
+        <h1 class="mt-5 max-w-4xl text-5xl sm:text-7xl">{h1}</h1>
+        {lede && <p class="mt-6 max-w-2xl text-lg text-sand-200">{lede}</p>}
+      </div>
+    </section>
+    <slot />
+    {cta && <ClosingCta />}
+  </main>
+  <Footer />
+  <StickyMobileBar />
+</BaseLayout>

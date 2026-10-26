@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* Singolare = the live site's font. Files live in /public/fonts */
+@font-face { font-family: "Singolare"; src: url("/fonts/Singolare-Light.ttf") format("truetype"); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: "Singolare"; src: url("/fonts/Singolare-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Singolare"; src: url("/fonts/Singolare-Bold.ttf") format("truetype"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Singolare"; src: url("/fonts/Singolare-Black.ttf") format("truetype"); font-weight: 800; font-style: normal; font-display: swap; }
+
+/* Brand colors taken from zionpt.com, refined into a scale */
+@theme {
+  --font-sans: "Singolare", "Albert Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-forest-950: #0a1612;
+  --color-forest-900: #10211b;
+  --color-forest-800: #18322a;
+  --color-forest-700: #234538;
+
+  --color-gold-300: #d6c177;
+  --color-gold-400: #bfa43f;
+  --color-gold-500: #a08629;
+  --color-gold-700: #7a6420; /* readable gold on cream (5:1) */
+
+  --color-sand-300: #beb7a1;
+  --color-sand-200: #d9d4c4;
+  --color-cream-100: #f1f0ed;
+  --color-cream-50: #f8f7f4;
+
+  --color-ink-muted: #4f5a55; /* body copy on cream (7:1) */
+
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+  body {
+    @apply bg-cream-100 text-forest-900 font-sans antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    font-weight: 400;
+  }
+  h1, h2, h3 { font-weight: 300; letter-spacing: -0.01em; line-height: 1.08; }
+  :focus-visible { outline: 2px solid var(--color-gold-500); outline-offset: 3px; border-radius: 2px; }
+  ::selection { background: var(--color-gold-300); color: var(--color-forest-950); }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+@utility btn {
+  @apply inline-flex min-h-12 items-center rounded-lg justify-center gap-2 px-7 py-3 text-[0.95rem] font-semibold tracking-wide transition-colors duration-300 ease-[var(--ease-luxe)] active:scale-[0.98];
+}
+
+@layer components {
+  .eyebrow { @apply text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-gold-700; }
+  .eyebrow-dark { @apply text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-gold-300; }
+  .container-x { @apply mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-12; }
+  .section-y { @apply py-20 sm:py-28 lg:py-36; }
+  .hairline { @apply h-px w-16 bg-gold-500; }
+
+  .btn-primary { @apply btn bg-forest-900 text-cream-50 hover:bg-forest-700; }
+  .btn-gold { @apply btn bg-gold-300 text-forest-950 hover:bg-cream-50; }
+  .btn-outline { @apply btn border border-forest-900/40 text-forest-900 hover:border-forest-900 hover:bg-forest-900 hover:text-cream-50; }
+  .btn-outline-light { @apply btn border border-cream-50/40 text-cream-50 hover:border-gold-300 hover:text-gold-300; }
+  .link-arrow { @apply btn border border-forest-900/40 text-forest-900 hover:border-forest-900 hover:bg-forest-900 hover:text-cream-50; }
+}
+
+/* ---------- Dark theme ----------
+   Light is the default. The header switch adds the "dark" class to <html>.
+   Light surfaces turn deep green; sections that were already dark get even darker so the page keeps its rhythm. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+.dark { color-scheme: dark; }
+.dark body { background: #0b1713; color: var(--color-cream-50); }
+.dark .bg-cream-100 { background-color: #0b1713; }
+.dark .bg-cream-50 { background-color: #13251e; }
+.dark .bg-sand-200 { background-color: var(--color-forest-800); }
+.dark .bg-forest-900 { background-color: #060e0b; }
+.dark .bg-cream-50\/95, .dark .bg-cream-50\/90, .dark .bg-cream-50\/50 { background-color: rgb(19 37 30 / 0.92); }
+
+.dark .text-forest-900, .dark .text-forest-800 { color: var(--color-cream-50); }
+.dark .text-forest-900\/60, .dark .text-forest-900\/40 { color: rgb(248 247 244 / 0.6); }
+.dark .text-ink-muted, .dark .text-ink-muted\/70 { color: var(--color-sand-300); }
+.dark .text-gold-700, .dark .text-gold-500 { color: var(--color-gold-300); }
+.dark .text-gold-700\/20 { color: rgb(214 193 119 / 0.2); }
+
+.dark .border-sand-300, .dark .border-sand-300\/70 { border-color: rgb(248 247 244 / 0.16); }
+.dark .border-forest-900, .dark .border-forest-900\/30, .dark .border-forest-900\/25, .dark .border-forest-900\/15, .dark .border-forest-900\/10 { border-color: rgb(248 247 244 / 0.22); }
+.dark .ring-forest-900\/10 { --tw-ring-color: rgb(248 247 244 / 0.14); }
+.dark .border-gold-500, .dark .border-gold-500\/70, .dark .border-gold-500\/50, .dark .border-gold-700\/30 { border-color: rgb(214 193 119 / 0.55); }
+.dark .bg-gold-500, .dark .bg-gold-700 { background-color: var(--color-gold-400); }
+.dark .hairline { background: var(--color-gold-300); }
+.dark :focus-visible { outline-color: var(--color-gold-300); }
+
+/* Buttons */
+.dark .btn-primary { background: var(--color-gold-300); color: var(--color-forest-950); }
+.dark .btn-primary:hover { background: var(--color-cream-50); }
+.dark .btn-outline, .dark .link-arrow { border-color: rgb(248 247 244 / 0.4); color: var(--color-cream-50); }
+.dark .btn-outline:hover, .dark .link-arrow:hover { background: var(--color-gold-300); border-color: var(--color-gold-300); color: var(--color-forest-950); }
+.dark .btn-gold:hover { background: var(--color-cream-50); }
+
+/* Small arrow badges that turn gold on hover keep dark text */
+.dark .group:hover .group-hover\:bg-gold-300 { color: var(--color-forest-950); }
+.dark .hover\:bg-forest-900:hover { background-color: var(--color-gold-300); color: var(--color-forest-950); border-color: var(--color-gold-300); }
+
+/* Forms and media */
+.dark input, .dark textarea, .dark select { color: var(--color-cream-50); }
+.dark ::placeholder { color: rgb(190 183 161 / 0.7); }
+.dark img { filter: brightness(0.92); }
+.dark iframe { filter: invert(0.9) hue-rotate(180deg) brightness(0.9); }
+
+/* Animated border for every "Book Appointment" button: a gold light runs around the edge */
+@property --btn-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+.btn-book { position: relative; isolation: isolate; }
+.btn-book::after {
+  content: ""; position: absolute; inset: -2px; z-index: -1; border-radius: 0.65rem; padding: 2px; pointer-events: none;
+  background: conic-gradient(from var(--btn-angle), transparent 0 55%, var(--color-cream-50) 78%, var(--color-gold-400) 90%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: btn-spin 3s linear infinite;
+}
+@keyframes btn-spin { to { --btn-angle: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .btn-book::after { animation: none; background: var(--color-gold-300); } }

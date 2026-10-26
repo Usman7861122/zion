@@ -1,0 +1,24 @@
+---
+import Reveal from './islands/Reveal.tsx';
+import ExpandGallery from './islands/ExpandGallery.tsx';
+const shots = [
+  { src: '/images/real/gal-1.webp', label: 'Bright front room', alt: 'Front room of the clinic with mirror, step platforms and tall windows' },
+  { src: '/images/real/gal-2.webp', label: 'A warm welcome at reception', alt: 'Zion Physical Therapy reception desk and sign' },
+  { src: '/images/real/gal-3.webp', label: 'Strength corner', alt: 'Strength corner with rack, bench and weights' },
+  { src: '/images/real/gal-5.webp', label: 'Calm waiting area', alt: 'Waiting area with seating and hexagon wall panels' },
+  { src: '/images/real/gal-6.webp', label: 'Treatment room', alt: 'Treatment table in front of the Zion neuron mural' },
+  { src: '/images/real/gal-7.webp', label: 'Movement studio', alt: 'Mirrored studio with stability balls and mobility tools' },
+];
+---
+<section id="gallery" class="section-y bg-cream-50">
+  <div class="container-x">
+    <div class="mx-auto max-w-2xl text-center">
+      <Reveal client:visible><p class="eyebrow">Inside the clinic</p></Reveal>
+      <Reveal client:visible delay={0.08}><h2 class="mt-5 text-4xl sm:text-5xl">A calm place to get better</h2></Reveal>
+      <Reveal client:visible delay={0.14}><p class="mt-6 text-lg text-ink-muted">A look at the spaces where our patients heal and get stronger. Hover or tap a photo to see it larger.</p></Reveal>
+    </div>
+    <Reveal client:visible delay={0.1}>
+      <div class="mt-14"><ExpandGallery client:visible shots={shots} /></div>
+    </Reveal>
+  </div>
+</section>

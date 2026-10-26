@@ -1,0 +1,50 @@
+---
+import CornerMark from './CornerMark.astro';
+import { site, locations } from '../data/site';
+import { locationPages } from '../data/locationPages';
+const year = new Date().getFullYear();
+---
+<footer class="relative isolate bg-forest-900 text-sand-200">
+  <CornerMark />
+  <div class="border-b border-cream-50/10 bg-gold-300 text-forest-950">
+    <div class="container-x flex flex-col items-start justify-between gap-3 py-5 sm:flex-row sm:items-center">
+      <p class="font-semibold">We are hiring Physical Therapists!</p>
+      <a href={`mailto:${site.email}`} class="btn-primary !min-h-11 !py-2">Apply here <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+  <div class="container-x grid gap-12 py-16 lg:grid-cols-[1.2fr_1fr_2fr]">
+    <div>
+      <img src="/logos/zion-logo.png" alt="Zion Physical Therapy" width="500" height="130" loading="lazy" class="h-12 w-auto" />
+      <p class="mt-6 max-w-xs text-[0.95rem]">One-on-one physical therapy with a Doctor of Physical Therapy. Personalized care, real results.</p>
+    </div>
+    <nav aria-label="Footer">
+      <p class="eyebrow-dark">Navigate</p>
+      <ul class="mt-4 space-y-1">
+        {[['Home','/'],['About','/about-us'],['Team','/team'],['Services','/services'],['Locations','/locations'],['Testimonials','/testimonials'],['Blog','/blog'],['Contact','/contact']].map(([l,h]) => <li><a href={h} class="inline-flex min-h-11 items-center hover:text-gold-300">{l}</a></li>)}
+      </ul>
+    </nav>
+    <div>
+      <p class="eyebrow-dark">Locations</p>
+      <ul class="mt-4 grid gap-x-8 gap-y-6 sm:grid-cols-2">
+        {locations.map((l) => (
+          <li><p class="font-semibold text-cream-50"><a href={`/locations/${locationPages[locations.indexOf(l)].slug}`} class="hover:text-gold-300">{l.name}</a></p><address class="mt-1 text-[0.92rem] not-italic">{l.lines.map((x) => <span class="block">{x}</span>)}</address></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-cream-50/10">
+    <div class="container-x flex flex-col gap-2 py-6 text-sm sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {site.name}. All rights reserved.</p>
+      <ul class="flex flex-wrap gap-x-6">
+        <li><a href="/terms-conditions" class="inline-flex min-h-11 items-center hover:text-gold-300">Terms &amp; Conditions</a></li>
+        <li><a href="/privacy-policy" class="inline-flex min-h-11 items-center hover:text-gold-300">Privacy Policy</a></li>
+        <li><a href="/notice-of-privacy-practices" class="inline-flex min-h-11 items-center hover:text-gold-300">Notice of Privacy Practices</a></li>
+        <li><a href="/accessibility" class="inline-flex min-h-11 items-center hover:text-gold-300">Accessibility</a></li>
+        <li><button type="button" id="open-cookie-settings" class="inline-flex min-h-11 items-center hover:text-gold-300">Cookie settings</button></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+<script>
+  document.getElementById('open-cookie-settings')?.addEventListener('click', () => window.dispatchEvent(new CustomEvent('zion:open-cookie-settings')));
+</script>

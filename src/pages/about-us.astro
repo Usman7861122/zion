@@ -1,0 +1,133 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/islands/Header.tsx';
+import CornerMark from '../components/CornerMark.astro';
+import Reveal from '../components/islands/Reveal.tsx';
+import PhilosophyView from '../components/PhilosophyView.astro';
+import ServicesBand from '../components/ServicesBand.astro';
+import AboutLocations from '../components/AboutLocations.astro';
+import Team from '../components/TeamSection.astro';
+import ClosingCta from '../components/ClosingCta.astro';
+import Footer from '../components/Footer.astro';
+import StickyMobileBar from '../components/StickyMobileBar.astro';
+import { site, locations, mapsUrl } from '../data/site';
+import { services } from '../data/care';
+
+// In-page anchors on the home page must point back to "/" from here.
+const fix = (h: string) => (h.startsWith('#') ? '/' + h : h);
+const nav = site.nav.map((i) => ({ ...i, href: fix(i.href), children: i.children?.map((c) => ({ ...c, href: fix(c.href) })) }));
+
+const pillars = [
+  { t: 'Leave it to us', d: 'Tell us what is holding you back. We build the plan and guide you through every step.' },
+  { t: 'Everything you need', d: 'Hands-on treatment, exercise coaching and clear advice, together in one visit.' },
+  { t: 'Dedicated and qualified staff', d: 'Your care comes from a licensed Doctor of Physical Therapy, never from an aide.' },
+];
+
+const places = [
+  { loc: locations[0], photo: '/images/real/loc-east.webp', tel: 'tel:+12123538693', blurb: 'On East 86th Street in Yorkville, a short walk from the 4, 5 and 6 trains at Lexington Avenue and the Q train at Second Avenue. Neighbors from Carnegie Hill and Lenox Hill visit us for orthopedic and pelvic health care.' },
+  { loc: locations[1], photo: '/images/real/loc-west.webp', tel: 'tel:+12123538693', blurb: 'On West 72nd Street, a short walk from the 1, 2 and 3 trains at 72nd Street. We care for patients from across the Upper West Side, including Lincoln Square.' },
+  { loc: locations[2], photo: '/images/real/loc-jersey.webp', tel: 'tel:+12123538693', blurb: 'On Washington Boulevard along the Jersey City waterfront, an easy trip from Manhattan. Our Jersey City clinic gives New Jersey patients the same one-on-one care.' },
+  { loc: locations[3], photo: '/images/real/loc-westport.webp', tel: 'tel:+12123538693', blurb: 'On the Post Road in Westport, Connecticut. We welcome patients from Westport and nearby Fairfield County towns such as Fairfield and Norwalk.' },
+];
+
+const faqs = [
+  { q: 'What makes Zion Physical Therapy different?', a: 'Every session is one-on-one and entirely with a Doctor of Physical Therapy. We do not use medical assistants or rehabilitation aides. Our therapists take an evidence-based, bio-psychosocial approach to help you reach your goals.' },
+  { q: 'Where are your physical therapy clinics?', a: 'We have clinics on the Upper East Side and Upper West Side of Manhattan, in Jersey City, New Jersey, and in Westport, Connecticut.' },
+  { q: 'What conditions do you treat?', a: 'We treat orthopedic conditions such as joint, muscle and bone pain, sports injuries and recovery after surgery. We also offer dry needling, women’s and men’s pelvic health care, and programs for Ehlers-Danlos syndrome.' },
+  { q: 'Do you offer telehealth?', a: 'Yes. You can choose in-person care or telehealth. Contact our team and we will help you find the right physical therapist for your needs.' },
+  { q: 'What should I expect at my first visit?', a: 'You will be evaluated and treated by a licensed physical therapist. If you have completed your intake paperwork through our patient portal, please allow about 10 minutes before your appointment to finish any remaining steps.' },
+];
+
+const url = (p: string) => new URL(p, Astro.site).toString();
+const ld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    ...places.map(({ loc }) => ({
+      '@type': 'Physiotherapy',
+      name: `${site.name} - ${loc.name}`,
+      url: url('/about-us'),
+      telephone: '+1-212-353-8693',
+      faxNumber: '+1-347-507-5510',
+      address: { '@type': 'PostalAddress', streetAddress: loc.lines[0], addressLocality: loc.lines[1].split(',')[0], addressRegion: loc.lines[1].split(', ')[1].split(' ')[0], postalCode: loc.lines[1].split(' ').pop(), addressCountry: 'US' },
+    })),
+    { '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  ],
+};
+---
+<BaseLayout title="About Zion Physical Therapy | NYC, Jersey City & Westport CT" description="Meet Zion Physical Therapy: one-on-one care with a Doctor of Physical Therapy at clinics on the Upper East Side, Upper West Side, Jersey City and Westport, CT.">
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <Header client:load nav={nav} phone={site.phone} phoneHref={site.phoneHref} bookingUrl={site.bookingUrl} />
+  <main id="content" class="pb-14 lg:pb-0">
+    <!-- Intro -->
+    <section class="relative isolate mt-[72px] overflow-hidden bg-forest-900 py-20 text-cream-50 sm:py-28 lg:mt-[120px]">
+      <CornerMark />
+      <div class="container-x relative grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+        <div>
+          <nav aria-label="Breadcrumb" class="text-sm text-sand-200"><a href="/" class="hover:text-gold-300">Home</a> <span aria-hidden="true" class="mx-2 text-gold-300">/</span> <span>About</span></nav>
+          <p class="eyebrow-dark mt-8">About us</p>
+          <h1 class="mt-5 text-5xl sm:text-7xl">Personal physical therapy in <span class="text-gold-300">Manhattan</span>, <span class="text-gold-300">Jersey City</span> and <span class="text-gold-300">Westport</span></h1>
+          <p class="mt-6 max-w-2xl text-lg text-sand-200">At Zion Physical Therapy we provide one-on-one sessions solely with a Doctor of Physical Therapy, without the use of any medical assistants or rehabilitation aides. We believe in personalized, exceptional care and pride ourselves in putting our patients first.</p>
+          <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+            <a href={site.bookingUrl} class="btn-gold btn-book">Book Appointment</a>
+            <a href={site.phoneHref} class="btn-outline-light">{site.phone}</a>
+          </div>
+        </div>
+        <Reveal client:load>
+          <img src="/images/real/gal-1.webp" alt="Bright front room of Zion Physical Therapy with mirror, step platforms and tall windows" width="900" height="900" fetchpriority="high" class="aspect-square w-full rounded-xl object-cover" />
+        </Reveal>
+      </div>
+    </section>
+
+    <PhilosophyView />
+
+    <!-- How we treat -->
+    <section class="section-y bg-cream-100">
+      <div class="container-x grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+        <Reveal client:visible>
+          <img src="/images/real/gal-6.webp" alt="Treatment table in front of the Zion neuron mural" width="900" height="900" loading="lazy" class="aspect-square w-full rounded-xl object-cover" />
+        </Reveal>
+        <div>
+          <Reveal client:visible><p class="eyebrow">How we treat</p></Reveal>
+          <Reveal client:visible delay={0.08}><h2 class="mt-5 text-4xl sm:text-5xl">We treat the whole person, not only the pain</h2></Reveal>
+          <Reveal client:visible delay={0.14}>
+            <p class="mt-6 text-lg text-ink-muted"><strong class="font-semibold text-forest-900">Evidence-based</strong> means your plan follows current research and what works in real life.</p>
+            <p class="mt-4 text-lg text-ink-muted"><strong class="font-semibold text-forest-900">Bio-psychosocial</strong> means we look at your body, your stress and sleep, and your daily life. Pain is rarely only in one place, so care should not be either.</p>
+            <p class="mt-4 text-lg text-ink-muted">Because you work with the same doctor every visit, they learn your goals, notice small changes and adjust your plan as you improve.</p>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+
+    <ServicesBand id="what-we-treat" bg="bg-cream-50" base="/" eyebrow="What we treat" heading="Orthopedic and pelvic health physical therapy in New York, New Jersey and Connecticut" intro="One-on-one care from a Doctor of Physical Therapy for pain, injury, recovery and pelvic health, at four clinics near you." />
+
+    <Team />
+
+    <AboutLocations />
+
+    <!-- FAQ (local SEO) -->
+    <section class="section-y bg-cream-50">
+      <div class="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+        <div>
+          <Reveal client:visible><p class="eyebrow">Questions</p></Reveal>
+          <Reveal client:visible delay={0.08}><h2 class="mt-5 text-4xl sm:text-5xl">Good to know before your visit</h2></Reveal>
+          <Reveal client:visible delay={0.14}><p class="mt-6 text-lg text-ink-muted">Can't find your answer? Call us at <a href={site.phoneHref} class="text-forest-900 underline decoration-gold-500 underline-offset-4">{site.phone}</a>.</p></Reveal>
+        </div>
+        <div class="divide-y divide-sand-300">
+          {faqs.map((f) => (
+            <details class="group py-6 first:pt-0">
+              <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-6 text-xl text-forest-900 marker:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-700 [&::-webkit-details-marker]:hidden">
+                {f.q}
+                <span aria-hidden="true" class="grid size-9 shrink-0 place-items-center rounded-lg border border-sand-300 text-xl leading-none transition-transform duration-300 group-open:rotate-45">+</span>
+              </summary>
+              <p class="mt-4 max-w-2xl text-ink-muted">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <ClosingCta />
+  </main>
+  <Footer />
+  <StickyMobileBar />
+</BaseLayout>

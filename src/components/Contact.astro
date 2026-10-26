@@ -1,0 +1,31 @@
+---
+import Reveal from './islands/Reveal.tsx';
+import ContactForm from './islands/ContactForm.tsx';
+import { site, locations } from '../data/site';
+---
+<section id="contact" class="section-y bg-cream-100">
+  <div class="container-x grid gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
+    <div>
+      <Reveal client:visible><p class="eyebrow">Contact</p></Reveal>
+      <Reveal client:visible delay={0.08}><h2 class="mt-5 text-4xl sm:text-5xl">Get in touch with us</h2></Reveal>
+      <Reveal client:visible delay={0.14}>
+        <p class="mt-7 max-w-md text-lg text-ink-muted">Have questions or want to schedule an appointment? Our friendly team will guide you and connect you with the right physical therapist, in person or by telehealth.</p>
+        <dl class="mt-10 space-y-6 border-t border-forest-900/15 pt-8">
+          <div><dt class="eyebrow">Call</dt><dd class="mt-1 text-2xl font-light"><a href={site.phoneHref} class="hover:text-gold-700">{site.phone}</a></dd></div>
+          <div><dt class="eyebrow">Fax</dt><dd class="mt-1 text-lg text-ink-muted">{site.fax}</dd></div>
+          <div>
+            <dt class="eyebrow">Follow</dt>
+            <dd class="mt-2 flex flex-wrap gap-x-6 gap-y-1">
+              {site.social.map((s) => <a href={s.href} class="inline-flex min-h-11 items-center underline decoration-gold-500 underline-offset-6 hover:text-gold-700">{s.label}</a>)}
+            </dd>
+          </div>
+        </dl>
+      </Reveal>
+    </div>
+    <Reveal client:visible delay={0.1}>
+      <div class="border border-forest-900/15 bg-cream-50 p-6 sm:p-10">
+        <ContactForm client:visible endpoint={site.contactEndpoint} locations={locations.map((l) => l.name)} />
+      </div>
+    </Reveal>
+  </div>
+</section>

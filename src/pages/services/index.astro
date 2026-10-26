@@ -1,0 +1,58 @@
+---
+import PageShell from '../../components/PageShell.astro';
+import Reveal from '../../components/islands/Reveal.tsx';
+import { services } from '../../data/care';
+import { locations } from '../../data/site';
+import { cities } from '../../data/serviceContent';
+const ld = {
+  '@context': 'https://schema.org', '@type': 'ItemList', name: 'Physical therapy services at Zion Physical Therapy',
+  itemListElement: services.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.title, url: new URL(`/services/${s.slug}`, Astro.site).href })),
+};
+---
+<PageShell title="Physical Therapy Services in NYC, Jersey City & Westport | Zion Physical Therapy" description="Orthopedic physical therapy, dry needling, women’s and men’s pelvic health, Ehlers-Danlos care, running analysis, vestibular rehab and more, one-on-one with a Doctor of Physical Therapy." crumb="Services" eyebrow="Our services" h1="Physical therapy that fits you" lede="From sports injuries to pelvic health, every service is delivered one-on-one by a Doctor of Physical Therapy. Choose a service to learn more.">
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <section class="bg-cream-50 py-20 sm:py-28">
+    <div class="container-x">
+      <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((s, i) => (
+          <li class={`flex ${i === services.length - 1 && services.length % 3 === 1 ? 'lg:col-span-3' : ''}`}>
+            <Reveal client:visible delay={(i % 3) * 0.08} className="flex w-full">
+              <article class={`group flex w-full flex-col overflow-hidden ${i === services.length - 1 && services.length % 3 === 1 ? 'lg:flex-row' : ''} rounded-xl border border-sand-300/70 bg-cream-50 transition-all duration-500 hover:-translate-y-2 hover:border-gold-500/70 motion-reduce:hover:translate-y-0`}>
+                <a href={`/services/${s.slug}`} class={`block overflow-hidden ${i === services.length - 1 && services.length % 3 === 1 ? 'lg:w-1/3' : ''}`} tabindex="-1" aria-hidden="true">
+                  <img src={s.image} alt="" width="800" height="600" loading="lazy" class="aspect-[4/3] w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 motion-reduce:transform-none" />
+                </a>
+                <div class="flex flex-1 flex-col p-6">
+                  <p class="text-sm tabular-nums text-gold-700">{String(i + 1).padStart(2, '0')}</p>
+                  <h2 class="mt-2 text-2xl text-forest-900"><a href={`/services/${s.slug}`} class="hover:text-gold-700">{s.title}</a></h2>
+                  <p class="mt-3 flex-1 text-ink-muted">{s.text}</p>
+                  <a href={`/services/${s.slug}`} class="btn-outline mt-6 justify-center" aria-label={`Learn more about ${s.title}`}>Learn more</a>
+                </div>
+              </article>
+            </Reveal>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-cream-100 py-20 sm:py-28">
+    <div class="container-x grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
+      <div>
+        <Reveal client:visible><p class="eyebrow">Find your clinic</p></Reveal>
+        <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">Care close to home</h2></Reveal>
+        <Reveal client:visible delay={0.14}><p class="mt-6 max-w-sm text-lg text-ink-muted">Every service is offered at our four clinics. Pick your location to see care in your area.</p></Reveal>
+      </div>
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {cities.map((c) => (
+          <li>
+            <a href={`/locations/${c.slug}`} class="group flex h-full flex-col rounded-xl border border-sand-300/70 bg-cream-50 p-6 transition-all duration-500 hover:-translate-y-1 hover:border-gold-500/70">
+              <p class="text-2xl text-forest-900 group-hover:text-gold-700">{c.name}</p>
+              <address class="mt-3 flex-1 text-ink-muted not-italic">{locations[c.locIndex].lines.join(', ')}</address>
+              <span class="mt-5 text-sm font-semibold uppercase tracking-[0.14em] text-gold-700">View clinic <span aria-hidden="true">→</span></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</PageShell>

@@ -1,0 +1,22 @@
+---
+import Reveal from './islands/Reveal.tsx';
+import { site } from '../data/site';
+---
+<section id="why" class="relative isolate overflow-hidden bg-forest-950 py-24 text-cream-50 sm:py-32">
+  <img src="/images/gallery/movement.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" class="absolute inset-0 -z-20 size-full object-cover opacity-70" />
+  <div class="absolute inset-0 -z-10 bg-gradient-to-r from-forest-950 via-forest-950/80 to-forest-950/10" aria-hidden="true"></div>
+  <div class="container-x">
+    <div class="max-w-2xl">
+      <Reveal client:visible><p class="eyebrow-dark">Why people love us</p></Reveal>
+      <Reveal client:visible delay={0.08}>
+        <h2 class="mt-5 text-4xl sm:text-6xl">{site.years}+ years of truly personal care</h2>
+      </Reveal>
+      <Reveal client:visible delay={0.16}>
+        <p class="mt-7 text-lg text-sand-200">
+          For more than {site.years} years, patients have trusted us for one-on-one attention that is hard to find. You are never handed off. You are never rushed.
+        </p>
+        <a href="#contact" class="btn-gold mt-9">Contact Us</a>
+      </Reveal>
+    </div>
+  </div>
+</section>

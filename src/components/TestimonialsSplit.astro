@@ -1,0 +1,13 @@
+---
+import Reveal from './islands/Reveal.tsx';
+import TestimonialsSplit from './islands/TestimonialsSplit.tsx';
+import { testimonials } from '../data/testimonials';
+---
+<section id="testimonials" class="relative isolate overflow-x-clip bg-sand-200 py-24 text-forest-900 sm:py-32">
+  <div class="pointer-events-none absolute -left-40 bottom-0 -z-10 aspect-square w-[560px] rounded-full bg-[radial-gradient(closest-side,rgba(255,255,255,0.55),transparent)]" aria-hidden="true"></div>
+  <div class="container-x">
+    <Reveal client:visible>
+      <TestimonialsSplit client:visible items={testimonials} photo="/images/hero/hero.webp" />
+    </Reveal>
+  </div>
+</section>

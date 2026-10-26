@@ -1,0 +1,44 @@
+---
+import Reveal from './islands/Reveal.tsx';
+import { services as all } from '../data/services';
+const services = all.slice(0, 6);
+---
+<section id="services" class="section-y bg-cream-100">
+  <div class="container-x">
+    <div class="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+      <div>
+        <Reveal client:visible><p class="eyebrow">Our services</p></Reveal>
+        <Reveal client:visible delay={0.08}><h2 class="mt-5 max-w-2xl text-4xl sm:text-5xl">Care that restores movement and relieves pain</h2></Reveal>
+      </div>
+      <Reveal client:visible delay={0.12}>
+        <p class="max-w-md text-lg text-ink-muted">Personalized, evidence-based physical therapy designed to restore movement, relieve pain and improve how you function every day.</p>
+      </Reveal>
+    </div>
+
+    <ul class="mt-14 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-6">
+      {services.map((s, i) => (
+        <li>
+          <Reveal client:visible delay={(i % 3) * 0.08}>
+            <a href="#contact" class="group relative block aspect-square overflow-hidden rounded-xl bg-forest-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-500" aria-label={`${s.title}. ${s.text}`}>
+              <img src={s.image} alt={s.alt} width="1400" height="933" loading="lazy" decoding="async"
+                class="absolute inset-0 size-full object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.12] group-focus-visible:scale-[1.12]" />
+              <div class="absolute inset-0 bg-gradient-to-t from-forest-950/85 via-forest-950/10 to-transparent"></div>
+              <div class="absolute inset-0 bg-forest-950/55 opacity-0 transition-opacity duration-700 group-hover:opacity-100 group-focus-visible:opacity-100 [@media(hover:none)]:opacity-100"></div>
+
+              <span class="absolute left-6 top-6 text-sm font-light tracking-widest text-cream-50/80">{String(i + 1).padStart(2, '0')}</span>
+              <span aria-hidden="true" class="absolute right-5 top-5 grid size-11 -rotate-45 place-items-center rounded-lg border border-cream-50/40 text-cream-50 opacity-0 transition-all duration-500 group-hover:rotate-0 group-hover:bg-gold-300 group-hover:text-forest-950 group-hover:opacity-100 [@media(hover:none)]:opacity-100">→</span>
+
+              <div class="absolute inset-x-0 bottom-0 p-6 sm:p-7">
+                <h3 class="text-2xl font-normal leading-tight text-cream-50 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1 sm:text-[1.7rem]">{s.title}</h3>
+                <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grid-rows-[1fr] group-focus-visible:grid-rows-[1fr] [@media(hover:none)]:grid-rows-[1fr]">
+                  <p class="overflow-hidden text-[0.98rem] leading-relaxed text-sand-200 opacity-0 transition-opacity duration-700 group-hover:opacity-100 group-focus-visible:opacity-100 [@media(hover:none)]:opacity-100"><span class="block pt-3">{s.text}</span></p>
+                </div>
+              </div>
+            </a>
+          </Reveal>
+        </li>
+      ))}
+    </ul>
+    <div class="mt-16 text-center"><a href="#contact" class="btn-primary">View All Services</a></div>
+  </div>
+</section>

@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/islands/Header.tsx';
+import CornerMark from '../../components/CornerMark.astro';
+import Reveal from '../../components/islands/Reveal.tsx';
+import HoursToday from '../../components/islands/HoursToday.tsx';
+import ClosingCta from '../../components/ClosingCta.astro';
+import Footer from '../../components/Footer.astro';
+import StickyMobileBar from '../../components/StickyMobileBar.astro';
+import { site, locations, mapsUrl } from '../../data/site';
+import { locationPages } from '../../data/locationPages';
+import { categories } from '../../data/staff';
+import { services } from '../../data/care';
+
+export function getStaticPaths() { return locationPages.map((p) => ({ params: { slug: p.slug }, props: { p } })); }
+const { p } = Astro.props;
+const loc = locations[p.locIndex];
+const addr = loc.lines.join(', ');
+const team = categories.find((c) => c.id === p.teamId)!;
+const fix = (h: string) => (h.startsWith('#') ? '/' + h : h);
+const nav = site.nav.map((i) => ({ ...i, href: fix(i.href), children: i.children?.map((c) => ({ ...c, href: fix(c.href) })) }));
+const embed = `https://www.google.com/maps?q=${encodeURIComponent(addr)}&z=15&output=embed`;
+const apple = `https://maps.apple.com/?q=${encodeURIComponent(addr)}`;
+const dayMap: Record<string, string> = { Monday: 'Mo', Tuesday: 'Tu', Wednesday: 'We', Thursday: 'Th', Friday: 'Fr', Saturday: 'Sa', Sunday: 'Su' };
+const ld = {
+  '@context': 'https://schema.org', '@type': 'Physiotherapy', name: `Zion Physical Therapy, ${p.name}`, telephone: p.phone, faxNumber: p.fax, image: p.photos[0].src,
+  address: { '@type': 'PostalAddress', streetAddress: loc.lines[0], addressLocality: loc.lines[1].split(',')[0], addressRegion: loc.lines[1].split(', ')[1]?.split(' ')[0], postalCode: loc.lines[1].split(' ').pop() },
+  openingHoursSpecification: p.hours.filter((d) => d.open).map((d) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: d.day, opens: d.open, closes: d.close })),
+};
+const serviceHref = (slug: string) => `/services/${slug}/${p.slug}`;
+---
+<BaseLayout title={p.metaTitle} description={p.metaDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <Header client:load nav={nav} phone={site.phone} phoneHref={site.phoneHref} bookingUrl={site.bookingUrl} />
+  <main id="content" class="pb-14 lg:pb-0">
+    <!-- Hero -->
+    <section class="relative isolate mt-[72px] overflow-hidden bg-forest-950 pb-20 pt-20 text-cream-50 sm:pb-28 sm:pt-28 lg:mt-[120px]">
+      <img src={p.photos[0].src} alt="" width="1800" height="1013" fetchpriority="high" class="absolute inset-0 -z-20 size-full object-cover" />
+      <div aria-hidden="true" class="absolute inset-0 -z-10 bg-forest-950/80"></div>
+      <CornerMark />
+      <div class="container-x relative">
+        <nav aria-label="Breadcrumb" class="text-sm text-sand-200"><a href="/" class="hover:text-gold-300">Home</a> <span aria-hidden="true" class="mx-2 text-gold-300">/</span> <a href="/#locations" class="hover:text-gold-300">Locations</a> <span aria-hidden="true" class="mx-2 text-gold-300">/</span> <span>{p.name}</span></nav>
+        <p class="eyebrow-dark mt-10">{loc.area}</p>
+        <h1 class="mt-5 max-w-4xl text-5xl sm:text-7xl">Physical therapy on the <span class="text-gold-300">{p.name}</span></h1>
+        <address class="mt-7 text-xl font-light not-italic text-sand-200">{addr}</address>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href={mapsUrl(loc)} class="btn-gold min-w-[12.5rem] justify-center">Get directions</a>
+          <a href={site.phoneHref} class="btn-outline-light min-w-[12.5rem] justify-center">Call {p.phone}</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hours + contact -->
+    <section class="bg-cream-50 py-20 sm:py-28">
+      <div class="container-x grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-20">
+        <div>
+          <Reveal client:visible><p class="eyebrow">Opening hours</p></Reveal>
+          <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">When we are open</h2></Reveal>
+          <div class="mt-8"><HoursToday client:load hours={p.hours} timezone={p.timezone} /></div>
+        </div>
+        <div class="flex flex-col gap-4">
+          <Reveal client:visible><p class="eyebrow">Find and contact us</p></Reveal>
+          <ul class="mt-2 grid gap-4">
+            <li class="rounded-xl border border-sand-300/70 bg-cream-100 p-6"><p class="text-sm font-medium uppercase tracking-[0.16em] text-gold-700">Address</p><address class="mt-2 text-xl not-italic text-forest-900">{loc.lines.join(', ')}</address></li>
+            <li class="rounded-xl border border-sand-300/70 bg-cream-100 p-6"><p class="text-sm font-medium uppercase tracking-[0.16em] text-gold-700">Phone</p><a href={site.phoneHref} class="mt-2 block text-xl text-forest-900 hover:text-gold-700">{p.phone}</a></li>
+            <li class="rounded-xl border border-sand-300/70 bg-cream-100 p-6"><p class="text-sm font-medium uppercase tracking-[0.16em] text-gold-700">Fax</p><p class="mt-2 text-xl text-forest-900">{p.fax}</p></li>
+          </ul>
+          {p.hss && <p class="rounded-xl bg-forest-900 p-6 text-sand-200"><span class="block text-sm font-medium uppercase tracking-[0.16em] text-gold-300">HSS Rehabilitation Network</span><span class="mt-2 block">This clinic is a participating location of the Hospital for Special Surgery Rehabilitation National Network.</span></p>}
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="relative isolate overflow-hidden bg-forest-900 py-20 text-cream-50 sm:py-28">
+      <CornerMark />
+      <div class="container-x relative grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+        <div>
+          <Reveal client:visible><p class="eyebrow-dark">About this clinic</p></Reveal>
+          <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">A boutique space, built around you</h2></Reveal>
+          <Reveal client:visible delay={0.14}>{p.intro.map((t) => <p class="mt-6 max-w-xl text-lg text-sand-200">{t}</p>)}</Reveal>
+          <ul class="mt-9 grid gap-4 sm:grid-cols-3">
+            {p.highlights.map((h) => <li class="border-t border-gold-300/40 pt-4"><h3 class="text-lg text-cream-50">{h.title}</h3><p class="mt-1 text-sm text-sand-200">{h.text}</p></li>)}
+          </ul>
+        </div>
+        <Reveal client:visible delay={0.1}>
+          <div class="relative">
+            <img src={p.photos[0].src} alt={p.photos[0].alt} width="1800" height="1013" loading="lazy" class="aspect-[4/3] w-full rounded-2xl object-cover" />
+            <div class="absolute -bottom-6 left-6 rounded-xl bg-cream-50 px-6 py-4 text-forest-900 shadow-xl"><p class="text-sm uppercase tracking-[0.16em] text-gold-700">Every visit</p><p class="mt-1 text-lg">One-on-one, in a private room</p></div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+
+    <!-- Map + directions -->
+    <section class="bg-cream-100 py-20 sm:py-28">
+      <div class="container-x">
+        <div class="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+          <div>
+            <Reveal client:visible><p class="eyebrow">Getting here</p></Reveal>
+            <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">Map and directions</h2></Reveal>
+          </div>
+          <Reveal client:visible delay={0.12}>
+            <div class="flex flex-wrap gap-3">
+              <a href={mapsUrl(loc)} class="btn-primary min-w-[12.5rem] justify-center">Google Maps</a>
+              <a href={apple} class="btn-outline min-w-[12.5rem] justify-center">Apple Maps</a>
+              <a href={site.phoneHref} class="btn-outline min-w-[12.5rem] justify-center">Call us</a>
+            </div>
+          </Reveal>
+        </div>
+        <Reveal client:visible delay={0.1}>
+          <div class="mt-10 overflow-hidden rounded-2xl border border-sand-300/70 bg-sand-200">
+            <iframe title={`Map of Zion Physical Therapy, ${p.name}`} src={embed} loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="block h-[26rem] w-full border-0 sm:h-[32rem]"></iframe>
+          </div>
+        </Reveal>
+        <p class="mt-6 max-w-2xl text-ink-muted">{addr}. The clinic is close to public transportation, shops and restaurants.</p>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section class="bg-cream-50 py-20 sm:py-28">
+      <div class="container-x">
+        <div class="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+          <div>
+            <Reveal client:visible><p class="eyebrow">Team available</p></Reveal>
+            <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">Meet your {p.name} team</h2></Reveal>
+          </div>
+          <Reveal client:visible delay={0.12}><a href={`/team#${p.teamId}`} class="btn-outline min-w-[12.5rem] justify-center">See the full team</a></Reveal>
+        </div>
+        <ul class={`mt-12 grid gap-6 sm:grid-cols-2 ${team.people.length >= 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`}>
+          {team.people.map((m, i) => (
+            <li class="flex">
+              <Reveal client:visible delay={(i % 4) * 0.08} className="flex w-full">
+                <article class="group relative flex w-full flex-col rounded-xl border border-sand-300/70 bg-cream-50 p-3 transition-all duration-500 hover:-translate-y-2 hover:border-gold-500/70 hover:shadow-[0_30px_70px_-30px_rgba(16,33,27,0.45)] motion-reduce:hover:translate-y-0 sm:p-4">
+                  <div class="aspect-[4/5] overflow-hidden rounded-lg bg-forest-900"><img src={m.photo} alt={`Portrait of ${m.name}`} width="800" height="1000" loading="lazy" class="size-full object-cover transition-transform duration-[1200ms] group-hover:scale-105" /></div>
+                  <div class="px-2 pb-2 pt-5">
+                    <h3 class="text-2xl text-forest-900 group-hover:text-gold-700">{m.slug ? <a href={m.href} class="after:absolute after:inset-0 after:content-['']">{m.name}</a> : m.name}</h3>
+                    <p class="mt-2 text-sm font-medium uppercase tracking-[0.12em] text-gold-700">{m.role}</p>
+                  </div>
+                </article>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="bg-cream-100 py-20 sm:py-28">
+      <div class="container-x">
+        <Reveal client:visible><p class="eyebrow">Services available</p></Reveal>
+        <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">Care you can get here</h2></Reveal>
+        <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((s, i) => (
+            <li class={`flex ${i === services.length - 1 && services.length % 3 === 1 ? 'lg:col-span-3' : ''}`}>
+              <Reveal client:visible delay={(i % 3) * 0.08} className="flex w-full">
+                <a href={serviceHref(s.slug)} class={`group flex w-full flex-col overflow-hidden ${i === services.length - 1 && services.length % 3 === 1 ? 'lg:flex-row' : ''} rounded-xl border border-sand-300/70 bg-cream-50 transition-all duration-500 hover:-translate-y-2 hover:border-gold-500/70 motion-reduce:hover:translate-y-0`}>
+                  <img src={s.image} alt={s.alt} width="800" height="600" loading="lazy" class={`aspect-[4/3] w-full object-cover ${i === services.length - 1 && services.length % 3 === 1 ? 'lg:aspect-auto lg:w-1/3' : ''}`} />
+                  <div class="flex flex-1 flex-col p-6 lg:justify-center">
+                    <h3 class="text-2xl text-forest-900 group-hover:text-gold-700">{s.title}</h3>
+                    <p class="mt-2 flex-1 text-ink-muted">{s.text}</p>
+                    <span class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-forest-900">Learn more <span aria-hidden="true">→</span></span>
+                  </div>
+                </a>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <ClosingCta />
+  </main>
+  <Footer />
+  <StickyMobileBar />
+</BaseLayout>

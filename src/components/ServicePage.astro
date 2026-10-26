@@ -1,0 +1,242 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './islands/Header.tsx';
+import CornerMark from './CornerMark.astro';
+import Reveal from './islands/Reveal.tsx';
+import TimelineScroll from './islands/TimelineScroll.tsx';
+import ClosingCta from './ClosingCta.astro';
+import Footer from './Footer.astro';
+import StickyMobileBar from './StickyMobileBar.astro';
+import { site, locations, mapsUrl } from '../data/site';
+import { services as allServices } from '../data/care';
+import { cities } from '../data/serviceContent';
+import type { ServiceContent, City } from '../data/serviceContent';
+
+const { s, city } = Astro.props as { s: ServiceContent; city?: City };
+const base = `/services/${s.slug}`;
+const loc = city ? locations[city.locIndex] : undefined;
+const fix = (h: string) => (h.startsWith('#') ? '/' + h : h);
+const nav = site.nav.map((i) => ({ ...i, href: fix(i.href), children: i.children?.map((c) => ({ ...c, href: fix(c.href) })) }));
+const others = (() => { const l = allServices.filter((x) => x.slug !== s.slug); const i = Math.max(0, allServices.findIndex((x) => x.slug === s.slug)); return [0, 1, 2].map((k) => l[(i + k) % l.length]); })();
+const h1 = city ? `${s.title} in ${city.name}` : s.title;
+const pageTitle = city ? `${s.title} in ${city.name}${city.region.includes('NY') ? ', NYC' : ', ' + city.region.split(', ')[1]} | Zion Physical Therapy` : s.metaTitle;
+const cityLede = city ? (s.slug === 'orthopedic-physical-therapy' ? city.lede : `${s.title} at our ${city.name} clinic: one-on-one care with a Doctor of Physical Therapy, close to home.`) : '';
+const pageDesc = city ? `${cityLede} ${s.lede} ${loc!.lines.join(', ')}.` : s.metaDescription;
+const lede = city ? cityLede : s.lede;
+const ld: any[] = [
+  { '@context': 'https://schema.org', '@type': 'MedicalWebPage', name: pageTitle, description: pageDesc, about: { '@type': 'MedicalTherapy', name: s.title } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: s.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+if (city && loc) ld.push({ '@context': 'https://schema.org', '@type': 'Physiotherapy', name: `Zion Physical Therapy, ${city.name}`, telephone: site.phone, address: { '@type': 'PostalAddress', streetAddress: loc.lines[0], addressLocality: loc.lines[1].split(',')[0], addressRegion: loc.lines[1].split(', ')[1]?.split(' ')[0], postalCode: loc.lines[1].split(' ').pop() }, availableService: { '@type': 'MedicalTherapy', name: s.title } });
+---
+<BaseLayout title={pageTitle} description={pageDesc}>
+  {ld.map((o) => <script type="application/ld+json" set:html={JSON.stringify(o)} />)}
+  <Header client:load nav={nav} phone={site.phone} phoneHref={site.phoneHref} bookingUrl={site.bookingUrl} />
+  <main id="content" class="pb-14 lg:pb-0">
+    <!-- Hero -->
+    <section class="relative isolate mt-[72px] overflow-hidden bg-forest-950 pb-20 pt-20 text-cream-50 sm:pb-28 sm:pt-28 lg:mt-[120px]">
+      <img src={s.photos[0].src} alt="" width="1400" height="933" fetchpriority="high" class="absolute inset-0 -z-20 size-full object-cover" />
+      <div aria-hidden="true" class="absolute inset-0 -z-10 bg-forest-950/80"></div>
+      <CornerMark />
+      <div class="container-x relative">
+        <nav aria-label="Breadcrumb" class="text-sm text-sand-200"><a href="/" class="hover:text-gold-300">Home</a> <span aria-hidden="true" class="mx-2 text-gold-300">/</span> <a href="/services" class="hover:text-gold-300">Services</a> <span aria-hidden="true" class="mx-2 text-gold-300">/</span> {city ? <><a href={base} class="hover:text-gold-300">{s.title}</a> <span aria-hidden="true" class="mx-2 text-gold-300">/</span> <span>{city.name}</span></> : <span>{s.title}</span>}</nav>
+        <p class="eyebrow-dark mt-10">{city ? city.region : 'Our services'}</p>
+        <h1 class="mt-5 max-w-4xl text-5xl sm:text-7xl">{city ? <>{s.title} in <span class="text-gold-300">{city.name}</span></> : s.title}</h1>
+        <p class="mt-7 max-w-2xl text-xl font-light leading-relaxed text-sand-200">{lede}</p>
+        <p class="mt-6 text-sm uppercase tracking-[0.18em] text-gold-300">Serving {city ? city.label : s.city}</p>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href={site.bookingUrl} class="btn-gold btn-book min-w-[12.5rem] justify-center">Book appointment</a>
+          <a href={site.phoneHref} class="btn-outline-light min-w-[12.5rem] justify-center">Call {site.phone}</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview -->
+    <section class="bg-cream-50 py-20 sm:py-28">
+      <div class="container-x grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+        <div>
+          <Reveal client:visible><p class="eyebrow">Overview</p></Reveal>
+          <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">{s.whatIs.title}</h2></Reveal>
+          <Reveal client:visible delay={0.14}>
+            {s.whatIs.text.map((t) => <p class="mt-6 max-w-xl text-lg text-ink-muted">{t}</p>)}
+            <div class="mt-9 flex flex-wrap gap-3">
+              <a href={site.bookingUrl} class="btn-primary min-w-[12.5rem] justify-center">Book appointment</a>
+              <a href={site.phoneHref} class="btn-outline min-w-[12.5rem] justify-center">Call us</a>
+            </div>
+          </Reveal>
+        </div>
+        <Reveal client:visible delay={0.1}>
+          <div class="relative">
+            <img src={s.photos[1].src} alt={s.photos[1].alt} width="1600" height="1068" loading="lazy" class="aspect-[4/3] w-full rounded-2xl object-cover" />
+            <div class="absolute -bottom-6 left-6 rounded-xl bg-forest-900 px-6 py-4 text-cream-50 shadow-xl">
+              <p class="text-sm uppercase tracking-[0.16em] text-gold-300">One-on-one</p>
+              <p class="mt-1 text-lg">Every visit, with a doctor</p>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+
+    <!-- Candidates -->
+    <section class="relative isolate overflow-hidden bg-forest-900 py-20 text-cream-50 sm:py-28">
+      <CornerMark />
+      <div class="container-x relative grid gap-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
+        <Reveal client:visible>
+          <div class="lg:sticky lg:top-56">
+            <img src={s.photos[2].src} alt={s.photos[2].alt} width="1600" height="1067" loading="lazy" class="aspect-[4/5] w-full rounded-2xl object-cover" />
+          </div>
+        </Reveal>
+        <div>
+          <Reveal client:visible><p class="eyebrow-dark">Who we help</p></Reveal>
+          <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">{s.candidates.title}</h2></Reveal>
+          <Reveal client:visible delay={0.14}><p class="mt-6 max-w-2xl text-lg text-sand-200">{s.candidates.text}</p></Reveal>
+          <Reveal client:visible delay={0.18}>
+            <h3 class="mt-10 text-sm font-medium uppercase tracking-[0.2em] text-gold-300">Conditions we treat</h3>
+            <ul class="mt-5 flex flex-wrap gap-2">
+              {s.candidates.conditions.map((c) => <li class="rounded-lg border border-cream-50/20 px-4 py-2 text-[0.95rem] text-cream-50 transition-colors duration-300 hover:border-gold-300 hover:text-gold-300">{c}</li>)}
+            </ul>
+            <h3 class="mt-12 text-sm font-medium uppercase tracking-[0.2em] text-gold-300">Common symptoms</h3>
+            <ul class="mt-5 grid gap-3 sm:grid-cols-2">
+              {s.candidates.symptoms.map((c) => <li class="flex items-start gap-3 text-sand-200"><span aria-hidden="true" class="mt-2.5 size-1.5 shrink-0 rounded-full bg-gold-300"></span>{c}</li>)}
+            </ul>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+
+    <!-- Local -->
+    <section class="bg-cream-100 py-20 sm:py-28">
+      <div class="container-x grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
+        <div>
+          <Reveal client:visible><p class="eyebrow">{city ? 'Your clinic' : 'Our clinics'}</p></Reveal>
+          <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">{city ? <>{s.title} in <span class="text-gold-700">{city.name}</span></> : s.local.title}</h2></Reveal>
+          <Reveal client:visible delay={0.14}>
+            <p class="mt-6 max-w-xl text-lg text-ink-muted">{s.local.text}</p>
+            {!city && (
+              <ul class="mt-8 flex flex-wrap gap-2">
+                {cities.map((c) => <li><a href={`${base}/${c.slug}`} class="inline-flex rounded-md border border-sand-300 bg-cream-50 px-3.5 py-1.5 text-sm text-forest-900 transition-colors hover:border-forest-900 hover:bg-forest-900 hover:text-cream-50">{c.name}</a></li>)}
+              </ul>
+            )}
+            {city && (
+              <p class="mt-8 flex max-w-xl items-start gap-4 border-t border-forest-900/15 pt-8 text-lg leading-relaxed text-ink-muted">
+                <svg aria-hidden="true" viewBox="0 0 24 24" class="mt-1 size-6 shrink-0 text-gold-700" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z" /><circle cx="12" cy="9.5" r="2.5" /></svg>
+                {city.nearby}
+              </p>
+            )}
+          </Reveal>
+        </div>
+        <ul class="grid gap-4 sm:grid-cols-2">
+          {locations.map((l, i) => {
+            const c = cities[i];
+            const current = city && city.slug === c.slug;
+            return (
+            <li class="flex">
+              <Reveal client:visible delay={(i % 2) * 0.08} className="flex w-full">
+                <a href={`${base}/${c.slug}`} aria-current={current ? 'page' : undefined} class={`group flex w-full flex-col rounded-xl border p-6 transition-all duration-500 hover:-translate-y-1 motion-reduce:hover:translate-y-0 ${current ? 'border-gold-500 bg-forest-900 text-cream-50' : 'border-sand-300/70 bg-cream-50 hover:border-gold-500/70'}`}>
+                  <p class={`eyebrow ${current ? '!text-gold-300' : ''}`}>{l.area}</p>
+                  <h3 class={`mt-3 text-2xl ${current ? 'text-cream-50' : 'text-forest-900 group-hover:text-gold-700'}`}>{l.name}</h3>
+                  <address class={`mt-3 flex-1 not-italic ${current ? 'text-sand-200' : 'text-ink-muted'}`}>{l.lines.join(', ')}</address>
+                  <span class={`mt-5 inline-flex items-center gap-2 text-sm font-medium ${current ? 'text-gold-300' : 'text-forest-900'}`}>{current ? 'You are here' : 'View this clinic'} <span aria-hidden="true">→</span></span>
+                </a>
+              </Reveal>
+            </li>
+            );
+          })}
+        </ul>
+      </div>
+      {city && loc && (
+        <div class="container-x mt-12 flex flex-wrap gap-3">
+          <a href={mapsUrl(loc)} class="btn-primary min-w-[12.5rem] justify-center">Get directions</a>
+          <a href={site.phoneHref} class="btn-outline min-w-[12.5rem] justify-center">Call us</a>
+        </div>
+      )}
+    </section>
+
+    <!-- Benefits -->
+    <section class="bg-cream-50 py-20 sm:py-28">
+      <div class="container-x">
+        <div class="max-w-2xl">
+          <Reveal client:visible><p class="eyebrow">Benefits</p></Reveal>
+          <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">{s.benefits.title}</h2></Reveal>
+          <Reveal client:visible delay={0.14}><p class="mt-5 text-lg text-ink-muted">{s.benefits.text}</p></Reveal>
+        </div>
+        <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {s.benefits.items.map((b, i) => (
+            <li class="flex">
+              <Reveal client:visible delay={i * 0.08} className="flex w-full">
+                <div class="group flex w-full flex-col rounded-xl border border-sand-300/70 bg-cream-50 p-7 transition-all duration-500 hover:-translate-y-2 hover:border-gold-500/70 hover:shadow-[0_30px_70px_-30px_rgba(16,33,27,0.45)] motion-reduce:hover:translate-y-0">
+                  <span class="text-sm tabular-nums text-gold-700">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 class="mt-5 text-2xl text-forest-900">{b.title}</h3>
+                  <p class="mt-3 text-ink-muted">{b.text}</p>
+                </div>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Recovery -->
+    <section class="relative isolate overflow-hidden bg-forest-900 py-20 text-cream-50 sm:py-28">
+      <CornerMark />
+      <div class="container-x relative grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20">
+        <div class="lg:sticky lg:top-56 lg:self-start">
+          <Reveal client:visible><p class="eyebrow-dark">Your care</p></Reveal>
+          <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">{s.recovery.title}</h2></Reveal>
+          <Reveal client:visible delay={0.14}><p class="mt-6 max-w-sm text-lg text-sand-200">{s.recovery.text}</p></Reveal>
+        </div>
+        <TimelineScroll client:visible items={s.recovery.steps.map((x) => ({ label: x.label, school: x.title, detail: x.text }))} />
+      </div>
+    </section>
+
+    <!-- Safety + FAQ -->
+    <section class="bg-cream-100 py-20 sm:py-28">
+      <div class="container-x grid gap-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
+        <div>
+          <Reveal client:visible><p class="eyebrow">Safety</p></Reveal>
+          <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">{s.safety.title}</h2></Reveal>
+          <Reveal client:visible delay={0.14}><p class="mt-6 max-w-md text-lg text-ink-muted">{s.safety.text}</p></Reveal>
+        </div>
+        <div>
+          <Reveal client:visible><p class="eyebrow">Questions</p></Reveal>
+          <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">Common questions</h2></Reveal>
+          <div class="mt-8 border-t border-forest-900/15">
+            {s.faqs.map((f) => (
+              <details class="group border-b border-forest-900/15 py-5">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-xl text-forest-900 [&::-webkit-details-marker]:hidden">
+                  {f.q}
+                  <span aria-hidden="true" class="grid size-8 shrink-0 place-items-center rounded-lg border border-sand-300 text-gold-700 transition-transform duration-300 group-open:rotate-45">+</span>
+                </summary>
+                <p class="mt-4 max-w-2xl text-ink-muted">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Other services -->
+    <section class="bg-cream-50 py-20 sm:py-28">
+      <div class="container-x">
+        <Reveal client:visible><p class="eyebrow">Explore more</p></Reveal>
+        <Reveal client:visible delay={0.08}><h2 class="mt-4 text-4xl sm:text-5xl">Other services</h2></Reveal>
+        <ul class="mt-12 grid gap-6 md:grid-cols-3">
+          {others.map((o, i) => (
+            <li class="flex">
+              <Reveal client:visible delay={i * 0.08} className="flex w-full">
+                <a href={`/services/${o.slug}`} class="group flex w-full flex-col overflow-hidden rounded-xl border border-sand-300/70 bg-cream-50 transition-all duration-500 hover:-translate-y-2 hover:border-gold-500/70 motion-reduce:hover:translate-y-0">
+                  <img src={o.image} alt={o.alt} width="800" height="600" loading="lazy" class="aspect-[4/3] w-full object-cover" />
+                  <div class="p-6"><h3 class="text-2xl text-forest-900 group-hover:text-gold-700">{o.title}</h3><p class="mt-2 text-ink-muted">{o.text}</p></div>
+                </a>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <ClosingCta />
+  </main>
+  <Footer />
+  <StickyMobileBar />
+</BaseLayout>

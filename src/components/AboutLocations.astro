@@ -1,0 +1,23 @@
+---
+import Reveal from './islands/Reveal.tsx';
+import LocationMapV2 from './islands/LocationMapV2.tsx';
+import { locations, mapsUrl, site } from '../data/site';
+const photos = ['/images/real/loc-east.webp', '/images/real/loc-west.webp', '/images/real/loc-jersey.webp', '/images/real/loc-westport.webp'];
+const items = locations.map((l, i) => ({ ...l, image: photos[i], maps: mapsUrl(l) }));
+---
+<section id="locations" class="section-y bg-cream-100">
+  <div class="container-x">
+    <div class="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-end">
+      <div>
+        <Reveal client:visible><p class="eyebrow">Our locations</p></Reveal>
+        <Reveal client:visible delay={0.08}><h2 class="mt-5 text-4xl sm:text-5xl">Find a Zion physical therapist near you</h2></Reveal>
+      </div>
+      <Reveal client:visible delay={0.12}>
+        <p class="max-w-lg text-lg text-ink-muted">Four clinics, one standard of care. Choose the one that is closest to home or work.</p>
+      </Reveal>
+    </div>
+    <div class="mt-14">
+      <LocationMapV2 client:visible items={items} phone={site.phone} phoneHref={site.phoneHref} badge={false} />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,37 @@
+---
+import CornerMark from './CornerMark.astro';
+import Reveal from './islands/Reveal.tsx';
+import HssBadge from './islands/HssBadgeCard.tsx';
+---
+<section id="hss" class="relative isolate overflow-x-clip bg-forest-900 py-24 text-cream-50 sm:py-32">
+  <CornerMark />
+  <div class="pointer-events-none absolute -right-32 top-0 -z-10 aspect-square w-[620px] rounded-full bg-[radial-gradient(closest-side,rgba(214,193,119,0.14),transparent)]" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-gold-300/50 to-transparent" aria-hidden="true"></div>
+  <div class="container-x grid items-center gap-16 lg:grid-cols-[1.1fr_1fr] lg:gap-24">
+    <div>
+      <Reveal client:visible><p class="eyebrow-dark">Trusted partner</p></Reveal>
+      <Reveal client:visible delay={0.08}><h2 class="mt-5 text-4xl sm:text-5xl">HSS Rehabilitation Network</h2></Reveal>
+      <Reveal client:visible delay={0.16}>
+        <p class="mt-7 max-w-xl text-lg text-sand-200">
+          Zion Physical Therapy is a participating member of the Hospital for Special Surgery Rehabilitation National Network, at our Upper East Side and Upper West Side locations.
+        </p>
+      </Reveal>
+      <Reveal client:visible delay={0.24}>
+        <ul class="mt-10 grid max-w-xl grid-cols-2 gap-4">
+          <li class="rounded-lg border border-cream-50/15 bg-cream-50/[0.04] p-6 transition-colors duration-500 hover:border-gold-300/50 hover:bg-cream-50/[0.07]">
+            <p class="text-5xl font-light text-gold-300">#1</p>
+            <p class="mt-2 text-sm text-sand-200">HSS is ranked first in the world for orthopedics.</p>
+          </li>
+          <li class="rounded-lg border border-cream-50/15 bg-cream-50/[0.04] p-6 transition-colors duration-500 hover:border-gold-300/50 hover:bg-cream-50/[0.07]">
+            <p class="text-5xl font-light text-gold-300">2</p>
+            <p class="mt-2 text-sm text-sand-200">Manhattan clinics in the network: Upper East and Upper West Side.</p>
+          </li>
+        </ul>
+        <a href="https://www.hss.edu/" target="_blank" rel="noopener noreferrer" class="btn-gold mt-10">Learn about HSS<span class="sr-only"> (opens in a new tab)</span></a>
+      </Reveal>
+    </div>
+    <Reveal client:visible delay={0.1}>
+      <HssBadge client:visible src="/logos/hss-network-badge.avif" />
+    </Reveal>
+  </div>
+</section>

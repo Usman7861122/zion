@@ -1,0 +1,41 @@
+---
+import Reveal from './islands/Reveal.tsx';
+import ElasticGallery from './islands/AboutGallery.tsx';
+
+const items = [
+  { id: 'entrance', title: 'Welcome to Zion', category: 'Our clinic', src: '/images/about/about-1.webp', alt: 'Front entrance of Zion Physical Therapy', w: 1280, h: 853 },
+  { id: 'reception', title: 'A calm first hello', category: 'Reception', src: '/images/about/about-2.webp', alt: 'Reception desk and Zion Physical Therapy sign', w: 1800, h: 1013 },
+  { id: 'studio', title: 'Room to move and heal', category: 'Treatment space', src: '/images/about/about-3.webp', alt: 'Bright treatment room with tables and exercise equipment', w: 1800, h: 1013 },
+];
+---
+<section id="about" class="section-y bg-cream-50">
+  <div class="container-x grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+    <Reveal client:visible>
+      <ElasticGallery client:visible items={items} />
+    </Reveal>
+
+    <div>
+      <Reveal client:visible><p class="eyebrow">About</p></Reveal>
+      <Reveal client:visible delay={0.08}><h2 class="mt-5 text-4xl sm:text-5xl">Zion Physical Therapy</h2></Reveal>
+      <Reveal client:visible delay={0.14}><div class="hairline mt-8"></div></Reveal>
+      <Reveal client:visible delay={0.2}>
+        <p class="mt-8 max-w-xl text-lg text-ink-muted">
+          Every visit is a one-on-one, 40 minute session with a Doctor of Physical Therapy. No medical assistants. No rehabilitation aides. Just focused, personal care.
+        </p>
+        <p class="mt-5 max-w-xl text-lg text-ink-muted">
+          Our therapists use an evidence-based, bio-psychosocial approach. That means we treat the whole person, not only the pain, to help you reach your goals.
+        </p>
+      </Reveal>
+      <Reveal client:visible delay={0.28}>
+        <ul class="mt-10 grid gap-6 sm:grid-cols-2">
+          <li class="border-t border-forest-900/15 pt-5"><h3 class="text-xl font-semibold">Dedicated and qualified</h3><p class="mt-2 text-[0.98rem] text-ink-muted">Personal treatment plans built on current research.</p></li>
+          <li class="border-t border-forest-900/15 pt-5"><h3 class="text-xl font-semibold">Live stronger</h3><p class="mt-2 text-[0.98rem] text-ink-muted">Work closely with your therapist, step by step.</p></li>
+        </ul>
+        <div class="mt-10 flex flex-wrap items-center gap-6">
+          <a href="#services" class="btn-primary">View All Services</a>
+          <a href="#contact" class="link-arrow">Meet the team <span aria-hidden="true">→</span></a>
+        </div>
+      </Reveal>
+    </div>
+  </div>
+</section>

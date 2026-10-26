@@ -1,0 +1,303 @@
+// Service pages for the other live services. Condition lists follow https://zionpt.com/services/ (dry needling and EDS lists are from the live pages).
+// All other wording is written for this site. TODO: clinic to review every FAQ, safety note and benefit list before launch.
+import type { ServiceContent } from './serviceContent';
+
+const areas = ['Upper East Side', 'Upper West Side', 'Manhattan', 'Jersey City', 'Westport', 'Fairfield County'];
+const steps = (a: string, b: string): ServiceContent['recovery']['steps'] => [
+  { label: 'Step 1', title: 'Evaluation', text: 'We listen to your story, check how you move and find what is driving your symptoms.' },
+  { label: 'Step 2', title: 'Your plan', text: 'Together we set clear goals and agree on a plan that fits your life.' },
+  { label: 'Step 3', title: a, text: b },
+  { label: 'Step 4', title: 'Build lasting results', text: 'We progress your program and teach you simple habits so the gains stay with you.' },
+];
+const commonFaqs = (t: string): ServiceContent['faqs'] => [
+  { q: 'What happens at my first visit?', a: 'You meet one-on-one with a Doctor of Physical Therapy. They review your history, assess you and talk through a plan. Treatment often begins the same day.' },
+  { q: 'Which clinic can I visit?', a: `We have clinics on the Upper East Side, Upper West Side, in Jersey City and in Westport. Call us and we will help you choose the best clinic for ${t}.` },
+];
+const mk = (o: Omit<ServiceContent, 'local' | 'recovery' | 'safety'> & { treatTitle: string; treatText: string; safety: string; localTitle: string }): ServiceContent => ({
+  ...o,
+  local: { title: o.localTitle, text: 'We treat patients at four clinics, so expert care is never far away. Every visit is one-on-one with a Doctor of Physical Therapy.', areas },
+  recovery: { title: 'How your care unfolds', text: 'Every plan is personal, but most follow the same simple path.', steps: steps(o.treatTitle, o.treatText) },
+  safety: { title: 'Safe, gentle and guided', text: o.safety },
+});
+
+export const moreServices: ServiceContent[] = [
+  mk({
+    slug: 'dry-needling', title: 'Dry Needling', city: 'Manhattan, Jersey City and Westport',
+    metaTitle: 'Dry Needling in Manhattan, Jersey City & Westport | Zion Physical Therapy',
+    metaDescription: 'Trigger point dry needling with a Doctor of Physical Therapy for muscle pain, tendinitis, headaches and more. Upper East Side, Upper West Side, Jersey City and Westport.',
+    lede: 'A precise, hands-on tool that releases tight muscle knots, eases pain and helps you move freely again.',
+    photos: [
+      { src: '/images/svc/dry-needling-1.webp', alt: 'Physical therapist performing dry needling on a patient’s shoulder' },
+      { src: '/images/svc/dry-needling-2.webp', alt: 'Therapist treating a patient’s lower back during a physical therapy session' },
+      { src: '/images/gallery/hands-on.webp', alt: 'Therapist using hands-on treatment on a patient’s neck and shoulder' },
+    ],
+    whatIs: { title: 'What is dry needling?', text: [
+      'Trigger point dry needling, also called intramuscular manual therapy, is another tool a physical therapist can use to treat pain and movement problems.',
+      'A very thin needle is placed into a tight, sensitive spot in the muscle, known as a trigger point. The aim is to relax the muscle, calm the pain signal and improve how the area moves. It is called “dry” because nothing is injected.',
+    ] },
+    candidates: { title: 'Is dry needling right for you?', text: 'Dry needling works best as part of a full plan that also includes movement and exercise. Our therapists may use it for conditions such as these:',
+      conditions: ['Joint pain', 'Disc pathology', 'Plantar fasciitis', 'Overuse injuries from running and cycling', 'Tendinitis (quad, shoulder, hamstring, calf)', 'Migraine and tension-type headaches', 'Whiplash', 'Spinal pathology', 'Scar mobility', 'Pelvic pain', 'Jaw pain and TMD', 'Carpal tunnel and repetitive motion disorders', 'Phantom pain', 'Night cramps', 'Ehlers-Danlos syndrome pain', 'Fibromyalgia'],
+      symptoms: ['Tight, knotted muscles', 'Pain that does not ease with rest', 'Limited range of motion', 'Tension headaches', 'Muscle pain that returns after stretching'] },
+    benefits: { title: 'What you can expect', text: 'Dry needling is one part of a plan built around you.', items: [
+      { title: 'Relief at the source', text: 'Targets the exact muscle spots that keep pain going.' },
+      { title: 'Easier movement', text: 'Looser muscles let joints move more freely.' },
+      { title: 'Faster progress', text: 'Calmer muscles make exercise and hands-on work more effective.' },
+      { title: 'Fewer flare-ups', text: 'You learn what to do between visits to keep results.' } ] },
+    treatTitle: 'Needling with movement', treatText: 'Dry needling is combined with hands-on work and guided exercise to calm tight muscles and retrain movement.',
+    safety: 'Needles are single-use and sterile. Your therapist explains the technique first, starts gently and adjusts to your comfort. You may feel a brief twitch or ache, which is normal.',
+    localTitle: 'Dry needling near you',
+    faqs: [
+      { q: 'Does dry needling hurt?', a: 'Most people feel little or nothing when the needle goes in. Some feel a quick muscle twitch or a dull ache. Tell your therapist how it feels and they will adjust.' },
+      { q: 'Is it the same as acupuncture?', a: 'They both use thin needles, but dry needling is a physical therapy tool aimed at muscle and movement problems. It is based on modern anatomy and used with exercise and hands-on care.' },
+      { q: 'How many sessions will I need?', a: 'It depends on your condition. Many people notice a change within a few visits. Your therapist will give an honest estimate after your evaluation.' },
+      ...commonFaqs('dry needling') ],
+  }),
+  mk({
+    slug: 'womens-health', title: 'Women’s Health', city: 'Manhattan, Jersey City and Westport',
+    metaTitle: 'Women’s Health & Postpartum Physical Therapy in NYC, Jersey City & Westport | Zion PT',
+    metaDescription: 'Private, expert women’s health physical therapy for pregnancy, postpartum recovery, pelvic pain and bladder symptoms with a Doctor of Physical Therapy.',
+    lede: 'Caring, private support for your body through pregnancy, after birth and every stage of life.',
+    photos: [
+      { src: '/images/svc/womens-1.webp', alt: 'Pregnant woman sitting calmly on a bed' },
+      { src: '/images/svc/womens-2.webp', alt: 'Smiling mother sitting on an exercise mat holding her baby in a bright clinic' },
+      { src: '/images/services/womens-health.webp', alt: 'Woman practicing a gentle prenatal exercise on a mat' },
+    ],
+    whatIs: { title: 'What is women’s health physical therapy?', text: [
+      'Women’s health physical therapy focuses on the muscles, joints and pelvic floor that support you through pregnancy, birth, recovery and menopause.',
+      'We take pride in being leaders in pelvic health. Care is private, unhurried and led by a Doctor of Physical Therapy who listens first.',
+    ] },
+    candidates: { title: 'Is women’s health therapy right for you?', text: 'You do not need to wait for a problem to be severe. Our team helps with concerns such as these:',
+      conditions: ['Prenatal back, hip and pelvic pain', 'Postpartum recovery', 'Diastasis recti (abdominal separation)', 'Pelvic pain', 'Bladder leaks and urgency', 'Pain with intimacy', 'Pelvic organ prolapse', 'C-section scar recovery', 'Pelvic floor tightness or weakness', 'Constipation and bowel symptoms'],
+      symptoms: ['Leaking with a cough, laugh or workout', 'Pressure or heaviness in the pelvis', 'Low back or hip pain in pregnancy', 'Pain that limits daily life', 'A core that feels weak after birth'] },
+    benefits: { title: 'What you can expect', text: 'Care that respects your body, your privacy and your pace.', items: [
+      { title: 'Private and respectful', text: 'One-on-one visits in a calm room, with every step explained.' },
+      { title: 'Stronger core and pelvic floor', text: 'Guided exercises rebuild strength and control.' },
+      { title: 'Less pain', text: 'Hands-on care and movement ease back, hip and pelvic pain.' },
+      { title: 'Confidence', text: 'A clear plan helps you return to exercise and daily life.' } ] },
+    treatTitle: 'Hands-on care and exercise', treatText: 'Gentle manual therapy, breathing and strengthening are matched to your stage of pregnancy or recovery.',
+    safety: 'You stay in control at every visit. Your therapist explains each technique before using it, and you can pause or stop at any time. If something needs a doctor, we will tell you and help with next steps.',
+    localTitle: 'Women’s health therapy near you',
+    faqs: [
+      { q: 'Can I come during pregnancy?', a: 'Yes. Many patients start in pregnancy to manage pain and prepare for birth. Your therapist adjusts every exercise to your stage.' },
+      { q: 'When can I start after having a baby?', a: 'Many people begin after their provider clears them. Your therapist will talk with you about timing and what to expect.' },
+      { q: 'Is a pelvic floor exam always needed?', a: 'No. Your therapist will explain your options and only do what you are comfortable with. Consent comes first.' },
+      ...commonFaqs('women’s health') ],
+  }),
+  mk({
+    slug: 'mens-health', title: 'Men’s Health', city: 'Manhattan, Jersey City and Westport',
+    metaTitle: 'Men’s Pelvic Health Physical Therapy in NYC, Jersey City & Westport | Zion PT',
+    metaDescription: 'Private, expert pelvic health physical therapy for men with a Doctor of Physical Therapy: pelvic pain, bladder and bowel symptoms and more.',
+    lede: 'Private, expert pelvic health care for men, in a calm and respectful setting.',
+    photos: [
+      { src: '/images/svc/mens-1.webp', alt: 'Physical therapist assessing a patient’s lower back' },
+      { src: '/images/svc/mens-2.webp', alt: 'Therapist treating a man’s back during a physical therapy session' },
+      { src: '/images/services/mens-pelvic-health-2.webp', alt: 'Physiotherapist guiding a smiling man through a stretch' },
+    ],
+    whatIs: { title: 'What is men’s pelvic health therapy?', text: [
+      'Many men live with pelvic pain, bladder or bowel changes or tension for years before asking for help. Pelvic floor physical therapy treats the muscles and nerves behind these symptoms.',
+      'We are leaders in both men’s and women’s pelvic health. Your visit is private, and your therapist explains each step before it happens.',
+    ] },
+    candidates: { title: 'Is men’s pelvic therapy right for you?', text: 'Our team helps with concerns such as these:',
+      conditions: ['Pelvic and groin pain', 'Chronic prostatitis symptoms', 'Urinary urgency, frequency or leaks', 'Bowel symptoms and constipation', 'Pain with sitting', 'Pelvic floor tightness', 'Recovery after prostate surgery', 'Sexual function concerns', 'Tailbone and low back pain'],
+      symptoms: ['Pain or pressure in the pelvis', 'A frequent urge to urinate', 'Leaking after surgery', 'Pain that is worse after sitting', 'Tension you cannot release'] },
+    benefits: { title: 'What you can expect', text: 'Care shaped around you, with respect and clear explanations.', items: [
+      { title: 'A private setting', text: 'One-on-one visits with a Doctor of Physical Therapy.' },
+      { title: 'Less pain and tension', text: 'Hands-on care and breathing help muscles relax.' },
+      { title: 'Better control', text: 'Targeted exercises improve bladder and bowel function.' },
+      { title: 'A clear plan', text: 'You know what we are doing and why at every step.' } ] },
+    treatTitle: 'Hands-on care and exercise', treatText: 'Gentle manual therapy, breathing, relaxation and strengthening calm the pelvic floor and retrain control.',
+    safety: 'You stay in control at every visit. Your therapist explains each technique first and only proceeds with your consent. If something needs a doctor, we will tell you and help with next steps.',
+    localTitle: 'Men’s pelvic health near you',
+    faqs: [
+      { q: 'Is pelvic floor therapy only for women?', a: 'No. Men have a pelvic floor too, and it can cause pain and bladder or bowel symptoms. Therapy helps many men.' },
+      { q: 'Will the exam be uncomfortable?', a: 'Your therapist starts with a conversation and an exterior assessment, explains every step and only goes further with your consent.' },
+      { q: 'Do I need a referral?', a: 'Please call us. We will tell you what your insurance plan needs.' },
+      ...commonFaqs('men’s health') ],
+  }),
+  mk({
+    slug: 'ehlers-danlos-syndrome', title: 'Ehlers-Danlos Syndrome', city: 'Manhattan, Jersey City and Westport',
+    metaTitle: 'Ehlers-Danlos Syndrome (EDS) Physical Therapy in NYC, Jersey City & Westport | Zion PT',
+    metaDescription: 'Physical therapy for Ehlers-Danlos syndrome and hypermobility: careful programs that build joint stability, ease pain and improve daily function.',
+    lede: 'Careful, steady programs that build stability and confidence for hypermobile joints.',
+    photos: [
+      { src: '/images/svc/eds-1.webp', alt: 'Therapist guiding an older patient through a supported arm stretch' },
+      { src: '/images/svc/eds-2.webp', alt: 'Physical therapist using gentle hands-on treatment' },
+      { src: '/images/services/ehlers-danlos-2.webp', alt: 'Therapist gently moving a patient’s arm through a guided stretch' },
+    ],
+    whatIs: { title: 'What is Ehlers-Danlos syndrome?', text: [
+      'The Ehlers-Danlos syndromes (EDS) are a group of genetic connective tissue conditions. The body’s connective tissue is more flexible than usual, which can make joints unstable and painful.',
+      'Physical therapy cannot change the condition, but it can help a great deal. The right program builds support around your joints, teaches safe movement and eases pain.',
+    ] },
+    candidates: { title: 'Is EDS therapy right for you?', text: 'EDS can affect the whole body. Our team helps with concerns such as these:',
+      conditions: ['Localized or widespread pain', 'Joint instability, subluxations and dislocations', 'Fine and gross motor limits', 'Postural orthostatic tachycardia syndrome (POTS)', 'Incontinence and vaginal or pelvic pain', 'Gastrointestinal (GI) problems', 'Hypermobility spectrum disorders', 'Fatigue and poor endurance'],
+      symptoms: ['Joints that slip or pop out', 'Pain after normal activity', 'Easy bruising or fatigue', 'Dizziness when standing', 'Trouble trusting your body'] },
+    benefits: { title: 'What you can expect', text: 'Slow, careful progress that respects your energy.', items: [
+      { title: 'Safer joints', text: 'Strength and control around joints reduce instability.' },
+      { title: 'Less pain', text: 'Gentle hands-on care and pacing strategies ease flare-ups.' },
+      { title: 'A plan for your energy', text: 'Programs are built around what your body can handle.' },
+      { title: 'Confidence', text: 'You learn how to move safely, at home and at work.' } ] },
+    treatTitle: 'Gentle strengthening', treatText: 'Low-load, well-paced exercise builds stability without pushing joints past their safe range.',
+    safety: 'We never stretch you past your safe range. Your plan moves slowly, and your therapist checks in on how you feel after each session. If you need other specialists, we will help you coordinate.',
+    localTitle: 'EDS physical therapy near you',
+    faqs: [
+      { q: 'Is stretching safe for EDS?', a: 'Stretching is used carefully, if at all. Most programs focus on building strength and control instead of adding flexibility.' },
+      { q: 'Can therapy help with POTS?', a: 'Many patients with EDS also have POTS. Therapy can include pacing, gradual exercise and positioning. Your therapist will work with your doctor.' },
+      { q: 'How often should I come?', a: 'It depends on your symptoms and energy. Your therapist will set a pace that feels right and change it as you improve.' },
+      ...commonFaqs('EDS care') ],
+  }),
+  mk({
+    slug: 'abdomino-phrenic-dyssynergia', title: 'Abdomino-Phrenic Dyssynergia', city: 'Manhattan, Jersey City and Westport',
+    metaTitle: 'Abdomino-Phrenic Dyssynergia (APD) Physical Therapy | Zion Physical Therapy',
+    metaDescription: 'Physical therapy for abdomino-phrenic dyssynergia (APD), a cause of bloating and distension. Diaphragm and abdominal retraining with a Doctor of Physical Therapy.',
+    lede: 'Retrain the diaphragm and belly muscles when they work out of rhythm, a common cause of bloating.',
+    photos: [
+      { src: '/images/svc/apd-1.webp', alt: 'Therapist placing hands on a patient’s abdomen during treatment' },
+      { src: '/images/svc/apd-2.webp', alt: 'Therapist assessing a patient’s lower back and trunk' },
+      { src: '/images/services/abdomino-phrenic.webp', alt: 'Physiotherapist coaching a patient through a breathing and core exercise' },
+    ],
+    whatIs: { title: 'What is abdomino-phrenic dyssynergia?', text: [
+      'Abdomino-phrenic dyssynergia (APD) is a functional gut condition. The diaphragm and the belly wall muscles do not work together as they should, which can make your belly look and feel swollen.',
+      'It is not caused by extra gas alone, and it is not “all in your head.” It is a muscle-coordination problem, and it can be retrained with biofeedback and guided exercise.',
+    ] },
+    candidates: { title: 'Is APD therapy right for you?', text: 'APD can look like other digestive concerns, so a medical diagnosis is a good first step. Therapy may help if you notice these:',
+      conditions: ['Bloating and abdominal distension', 'Belly swelling that grows through the day', 'Discomfort after meals', 'Functional GI symptoms', 'Constipation linked to pelvic floor tension', 'Shortness of breath with a swollen belly'],
+      symptoms: ['A belly that looks pregnant by evening', 'Pressure under the ribs', 'Bloating without a clear food cause', 'Symptoms that improve lying down'] },
+    benefits: { title: 'What you can expect', text: 'A clear, drug-free approach to retraining your muscles.', items: [
+      { title: 'Less bloating', text: 'Better muscle timing reduces visible distension.' },
+      { title: 'Easier breathing', text: 'A relaxed diaphragm moves more freely.' },
+      { title: 'More comfort after meals', text: 'You learn simple techniques you can use anywhere.' },
+      { title: 'A plan you own', text: 'Home exercises keep progress going between visits.' } ] },
+    treatTitle: 'Breathing and retraining', treatText: 'Diaphragmatic breathing, abdominal retraining and hands-on work help the muscles work together again.',
+    safety: 'Treatment is gentle and non-invasive. If your symptoms suggest something that needs medical testing, we will tell you and help you coordinate with your doctor.',
+    localTitle: 'APD physical therapy near you',
+    faqs: [
+      { q: 'How do I know I have APD?', a: 'A doctor, often a gastroenterologist, makes the diagnosis. Your therapist can assess how your diaphragm and belly muscles are working.' },
+      { q: 'Can it be treated without medicine?', a: 'Many patients improve with physical therapy that retrains the muscles. Your doctor may combine it with other care.' },
+      { q: 'Can I do this care remotely?', a: 'Some guidance can be given through our remote consultation program. Call us to find the right fit.' },
+      ...commonFaqs('APD care') ],
+  }),
+  mk({
+    slug: 'advanced-running-analysis', title: 'Advanced Running Analysis', city: 'Manhattan, Jersey City and Westport',
+    metaTitle: 'Advanced Running Analysis & Gait Assessment | Zion Physical Therapy',
+    metaDescription: 'Running analysis with a Doctor of Physical Therapy to treat running injuries, prevent new ones and improve efficiency. Manhattan, Jersey City and Westport.',
+    lede: 'See how you really run. Treat pain, prevent injury and run with more ease and power.',
+    photos: [
+      { src: '/images/svc/running-1.webp', alt: 'Runner on a treadmill while a therapist reviews his running form' },
+      { src: '/images/svc/running-2.webp', alt: 'Patient doing a balance exercise on a half ball with a therapist’s help' },
+      { src: '/images/gallery/movement.webp', alt: 'Therapist guiding a patient through a supported leg exercise' },
+    ],
+    whatIs: { title: 'What is a running analysis?', text: [
+      'Runners come to physical therapy for different reasons: an injury, injury prevention, or a wish to run better. A running analysis looks at how you move at your own pace.',
+      'We check your form, strength, flexibility and balance, then build a plan that fits your body and your goals.',
+    ] },
+    candidates: { title: 'Is a running analysis right for you?', text: 'It helps runners at every level, from first 5K to marathon. Common reasons to come:',
+      conditions: ['Shin splints', 'Runner’s knee', 'IT band pain', 'Achilles and calf pain', 'Plantar fasciitis', 'Hip and glute pain', 'Stress injuries', 'Low back pain when running', 'Returning to running after injury or birth'],
+      symptoms: ['Pain that starts during or after a run', 'Nagging aches that keep returning', 'A recent jump in mileage', 'Wanting to run faster or longer without pain'] },
+    benefits: { title: 'What you can expect', text: 'Clear, specific findings and a plan you can follow.', items: [
+      { title: 'Spot the cause', text: 'We look for what drives the pain, not just where it hurts.' },
+      { title: 'Move more efficiently', text: 'Small changes in form can save energy.' },
+      { title: 'Stay injury free', text: 'Strength and mobility work protects you for the long run.' },
+      { title: 'A safe return', text: 'A gradual plan gets you back to running with confidence.' } ] },
+    treatTitle: 'Hands-on care and run training', treatText: 'Manual therapy, strength work and form drills are matched to your findings and your training plan.',
+    safety: 'We keep running load at a level your body can handle. If your symptoms suggest a stress injury or something that needs imaging, we will tell you and help with next steps.',
+    localTitle: 'Running analysis near you',
+    faqs: [
+      { q: 'Do I need to be injured to come?', a: 'No. Many runners come to prevent injury or to improve their form and performance.' },
+      { q: 'What should I bring?', a: 'Bring your running shoes and comfortable running clothes. Tell us about your weekly mileage and goals.' },
+      { q: 'Will I have to stop running?', a: 'Often not. Many runners can keep training with changes. Your therapist will guide you.' },
+      ...commonFaqs('running care') ],
+  }),
+  mk({
+    slug: 'vestibular-rehabilitation', title: 'Vestibular Rehabilitation', city: 'Manhattan, Jersey City and Westport',
+    metaTitle: 'Vestibular Rehabilitation for Dizziness & Balance | Zion Physical Therapy',
+    metaDescription: 'Vestibular physical therapy for dizziness, vertigo and balance problems with a Doctor of Physical Therapy. Manhattan, Jersey City and Westport.',
+    lede: 'Targeted therapy for dizziness, vertigo and balance problems, so you can move with confidence again.',
+    photos: [
+      { src: '/images/svc/vestibular-1.webp', alt: 'Patient practicing balance on a half ball while a therapist supports her' },
+      { src: '/images/svc/vestibular-2.webp', alt: 'Therapist observing a patient’s movement and balance on a treadmill' },
+      { src: '/images/about/clinic-session.webp', alt: 'Physical therapy session in a bright clinic room' },
+    ],
+    whatIs: { title: 'What is vestibular rehabilitation?', text: [
+      'Dizziness and balance problems affect many adults every year and can be a large part of falls and lost confidence. The vestibular system, in your inner ear and brain, helps you stay steady.',
+      'Vestibular rehabilitation is an exercise-based program that helps your brain adapt. It can ease dizziness, improve balance and help you return to normal life.',
+    ] },
+    candidates: { title: 'Is vestibular therapy right for you?', text: 'Therapy can help with many causes of dizziness. A doctor’s diagnosis is helpful, and we can guide you. Common reasons to come:',
+      conditions: ['Benign paroxysmal positional vertigo (BPPV)', 'Vestibular neuritis and labyrinthitis', 'Dizziness after a concussion', 'Balance problems and fall risk', 'Motion sensitivity', 'Dizziness after a stroke or illness', 'Neck-related dizziness'],
+      symptoms: ['Spinning when you roll over or look up', 'Feeling unsteady when you walk', 'Dizziness in busy places or when turning', 'Fear of falling', 'Blurred vision with head movement'] },
+    benefits: { title: 'What you can expect', text: 'A clear plan that builds steadiness step by step.', items: [
+      { title: 'Less dizziness', text: 'Targeted exercises help your brain adapt and calm symptoms.' },
+      { title: 'Better balance', text: 'Strength and balance work lowers your risk of falls.' },
+      { title: 'Easier daily life', text: 'Walking, driving and work feel more natural.' },
+      { title: 'Confidence', text: 'You learn what to do if symptoms flare.' } ] },
+    treatTitle: 'Balance and eye-head training', treatText: 'Specific head, eye and balance exercises, and position-based treatment when it is the right fit, retrain your system.',
+    safety: 'Some exercises may bring on mild dizziness for a short time, which is part of the process. We work at a level you can handle, and we will refer you to a doctor if your symptoms need medical attention.',
+    localTitle: 'Vestibular therapy near you',
+    faqs: [
+      { q: 'Will the exercises make me dizzy?', a: 'They can bring on mild, brief dizziness. That is a normal part of retraining. Your therapist keeps it at a safe level.' },
+      { q: 'Do I need a diagnosis first?', a: 'It helps, but you can start with an evaluation. We will tell you if you should also see a doctor.' },
+      { q: 'How long does it take?', a: 'Some conditions, such as BPPV, can improve in a few visits. Others take longer. Your therapist will give an honest estimate.' },
+      ...commonFaqs('vestibular care') ],
+  }),
+  mk({
+    slug: 'remote-consultation-program', title: 'Remote Consultation Program', city: 'Anywhere, by video',
+    metaTitle: 'Remote Physical Therapy Consultation | Zion Physical Therapy',
+    metaDescription: 'Expert remote physical therapy consultations by video for pelvic health, bladder, bowel and pain, wherever you live. Zion Physical Therapy.',
+    lede: 'Expert guidance from home for bladder, bowel and pelvic pain, wherever you live.',
+    photos: [
+      { src: '/images/svc/remote-1.webp', alt: 'Patient holding her wrist while on a video call with a doctor on a tablet' },
+      { src: '/images/services/remote-consultation.webp', alt: 'Doctor reviewing a joint model at her desk' },
+      { src: '/images/about/clinic-session.webp', alt: 'Physical therapy session in a bright clinic room' },
+    ],
+    whatIs: { title: 'What is the remote consultation program?', text: [
+      'Our remote consultation program brings our pelvic health expertise to you by secure video. It is for people who live far from our clinics or who prefer to start from home.',
+      'You meet with a Doctor of Physical Therapy, talk through your symptoms, and leave with a plan and exercises you can start right away.',
+    ] },
+    candidates: { title: 'Is remote care right for you?', text: 'Remote visits work well for guidance, education and exercise coaching. Common topics:',
+      conditions: ['Urinary symptoms', 'Bowel symptoms', 'Sexual health concerns', 'Abdomino-phrenic dyssynergia', 'Prenatal physical therapy', 'Postnatal physical therapy', 'Pelvic pain', 'Exercise and return-to-activity plans'],
+      symptoms: ['You live far from a Zion clinic', 'Travel is hard for you right now', 'You want expert advice before visiting in person', 'You need a home program and follow-up'] },
+    benefits: { title: 'What you can expect', text: 'Expert care that fits your schedule.', items: [
+      { title: 'Care from home', text: 'No travel. A secure video visit from your own space.' },
+      { title: 'Expert guidance', text: 'A Doctor of Physical Therapy leads every visit.' },
+      { title: 'A clear home plan', text: 'Simple exercises and tips you can start at once.' },
+      { title: 'Follow-up support', text: 'Check in as you progress, and visit a clinic if needed.' } ] },
+    treatTitle: 'Guided home program', treatText: 'Your therapist teaches exercises and habits over video, then adjusts your plan as you improve.',
+    safety: 'Some problems need an in-person exam. If that is true for you, we will say so and help you book a visit at one of our clinics.',
+    localTitle: 'Remote care and nearby clinics',
+    faqs: [
+      { q: 'What do I need for a video visit?', a: 'A phone, tablet or computer with a camera, a private space and a good internet connection.' },
+      { q: 'Is it as good as an in-person visit?', a: 'For guidance and exercise coaching, it works very well. Some hands-on care needs an in-person visit, and we will tell you if so.' },
+      { q: 'Is my visit private?', a: 'Yes. Visits take place on a secure video platform. Please ask us about our privacy practices when you book.' },
+      ...commonFaqs('a remote visit') ],
+  }),
+  mk({
+    slug: 'pelvic-floor-physical-therapy-for-men-and-women', title: 'Pelvic Floor Physical Therapy for Men and Women', city: 'Manhattan, Jersey City and Westport',
+    metaTitle: 'Pelvic Floor Physical Therapy for Men & Women | Zion Physical Therapy',
+    metaDescription: 'Pelvic floor physical therapy for men and women in Manhattan, Jersey City and Westport: urinary, bowel and sexual concerns, prenatal and postnatal care.',
+    lede: 'Respectful, private pelvic floor care at every stage of life.',
+    photos: [
+      { src: '/images/svc/pelvic-1.webp', alt: 'Therapist with a patient during a pelvic health session' },
+      { src: '/images/svc/pelvic-2.webp', alt: 'Mother sitting on an exercise mat with her baby in a bright clinic' },
+      { src: '/images/services/womens-health.webp', alt: 'Woman practicing a gentle exercise on a mat' },
+    ],
+    whatIs: { title: 'What is pelvic floor physical therapy?', text: [
+      'The pelvic floor is a group of muscles that support your bladder, bowel and core. When they are too tight, too weak or poorly coordinated, you can have pain, leaks or other symptoms.',
+      'Pelvic floor physical therapy treats these muscles with hands-on care, relaxation and strengthening. We care for men and women, and for patients before and after having a baby.',
+    ] },
+    candidates: { title: 'Is pelvic floor therapy right for you?', text: 'Our team helps with these concerns and more:',
+      conditions: ['Urinary symptoms (leaks, urgency, frequency)', 'Bowel symptoms and constipation', 'Sexual health concerns and pain', 'Abdomino-phrenic dyssynergia', 'Prenatal physical therapy', 'Postnatal physical therapy', 'Pelvic pain', 'Pelvic organ prolapse'],
+      symptoms: ['Leaking when you cough, jump or laugh', 'Pelvic or lower belly pain', 'Pain with sitting or intimacy', 'A constant need to go', 'Pressure or heaviness'] },
+    benefits: { title: 'What you can expect', text: 'Care that is private, clear and focused on your goals.', items: [
+      { title: 'A private setting', text: 'One-on-one visits with a Doctor of Physical Therapy.' },
+      { title: 'Better control', text: 'Exercises improve bladder and bowel function.' },
+      { title: 'Less pain', text: 'Hands-on care and relaxation ease tension.' },
+      { title: 'Confidence', text: 'You understand your body and your plan.' } ] },
+    treatTitle: 'Hands-on care and retraining', treatText: 'Manual therapy, breathing, relaxation and strengthening help the pelvic floor work well again.',
+    safety: 'You stay in control at every visit. Your therapist explains each technique first and only proceeds with your consent. If something needs a doctor, we will tell you and help with next steps.',
+    localTitle: 'Pelvic floor therapy near you',
+    faqs: [
+      { q: 'Who treats pelvic floor problems?', a: 'Both men and women. Pelvic floor problems are common and treatable.' },
+      { q: 'Will I need an internal exam?', a: 'Not always. Your therapist explains your options, starts with a conversation and only goes further with your consent.' },
+      { q: 'Can I come during pregnancy?', a: 'Yes. Many patients start in pregnancy to ease pain and prepare for birth. We also help after having a baby.' },
+      ...commonFaqs('pelvic floor care') ],
+  }),
+];
