@@ -6,9 +6,9 @@ type Props = { phone: string; phoneHref: string; bookingUrl: string };
 
 // 3 slides: each has its own photo and its own 2-3 changing words.
 const slides = [
-  { img: '/images/h2/strength.webp', pos: '38% 18%', label: 'Strength', words: 'move better', alt: 'Woman training with a kettlebell in a gym' },
+  { img: '/images/h2/balance.webp', pos: '50% 30%', label: 'Mobility', words: 'move freely', alt: 'Woman in a warrior yoga pose on a wooden deck among pine trees' },
+  { img: '/images/h2/strength.webp', pos: '38% 18%', label: 'Strength', words: 'get stronger', alt: 'Woman training with a kettlebell in a gym' },
   { img: '/images/h2/performance.webp', pos: '58% 12%', label: 'Performance', words: 'train harder', alt: 'Male athlete doing a one-arm dumbbell row' },
-  { img: '/images/h2/mobility.webp', pos: '46% 20%', label: 'Mobility', words: 'live pain-free', alt: 'Woman exercising with light dumbbells and a towel around her neck' },
 ];
 const DURATION = 6500;
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -59,7 +59,7 @@ export default function HeroSlider({ phone, phoneHref, bookingUrl }: Props) {
           </motion.p>
 
           <h1 className="mt-5 text-[2.6rem] font-light leading-[1.05] tracking-tight text-cream-50 sm:text-6xl lg:text-[4.4rem]">
-            <span className="sr-only">Physical therapy in Manhattan, Jersey City and Westport, built to help you move better, train harder and live pain-free</span>
+            <span className="sr-only">Physical therapy in Manhattan, Jersey City and Westport, built to help you move freely, get stronger and train harder</span>
             <span aria-hidden="true">
               <motion.span initial={reduce ? false : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1, ease }} className="block">Physical therapy built to help you</motion.span>
               <span className="relative mt-1 block h-[1.18em] overflow-hidden text-gold-300">
