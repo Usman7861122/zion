@@ -6,6 +6,7 @@ type Props = { phone: string; phoneHref: string; bookingUrl: string };
 
 // 3 slides: each has its own photo and its own 2-3 changing words.
 const slides = [
+  { img: '/images/h2/together.webp', pos: '28% 40%', label: 'Training', words: 'stay active', alt: 'Man and woman smiling at each other while doing planks in a gym' },
   { img: '/images/h2/balance.webp', pos: '50% 30%', label: 'Mobility', words: 'move freely', alt: 'Woman in a warrior yoga pose on a wooden deck among pine trees' },
   { img: '/images/h2/strength.webp', pos: '38% 18%', label: 'Strength', words: 'get stronger', alt: 'Woman training with a kettlebell in a gym' },
   { img: '/images/h2/performance.webp', pos: '58% 12%', label: 'Performance', words: 'train harder', alt: 'Male athlete doing a one-arm dumbbell row' },
@@ -59,7 +60,7 @@ export default function HeroSlider({ phone, phoneHref, bookingUrl }: Props) {
           </motion.p>
 
           <h1 className="mt-5 text-[2.6rem] font-light leading-[1.05] tracking-tight text-cream-50 sm:text-6xl lg:text-[4.4rem]">
-            <span className="sr-only">Physical therapy in Manhattan, Jersey City and Westport, built to help you move freely, get stronger and train harder</span>
+            <span className="sr-only">Physical therapy in Manhattan, Jersey City and Westport, built to help you stay active, stay active, move freely, get stronger and train harder</span>
             <span aria-hidden="true">
               <motion.span initial={reduce ? false : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1, ease }} className="block">Physical therapy built to help you</motion.span>
               <span className="relative mt-1 block h-[1.18em] overflow-hidden text-gold-300">
@@ -98,7 +99,7 @@ export default function HeroSlider({ phone, phoneHref, bookingUrl }: Props) {
       {/* Slide controls */}
       <div className="container-x absolute inset-x-0 bottom-0 z-10 pb-20 lg:pb-10">
         <div className="flex items-end justify-between gap-6">
-          <div role="tablist" aria-label="Choose a slide" className="grid min-w-0 max-w-xl flex-1 grid-cols-3 gap-3">
+          <div role="tablist" aria-label="Choose a slide" className="grid min-w-0 max-w-2xl flex-1 grid-cols-4 gap-3">
             {slides.map((s, n) => (
               <button key={s.label} type="button" role="tab" aria-selected={n === i} aria-label={`Slide ${n + 1}: ${s.label}`} onClick={() => go(n)} className="group text-left">
                 <span className={`block text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${n === i ? 'text-gold-300' : 'text-sand-300 group-hover:text-cream-50'}`}>
