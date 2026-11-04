@@ -121,3 +121,5 @@
 }
 @keyframes btn-spin { to { --btn-angle: 360deg; } }
 @media (prefers-reduced-motion: reduce) { .btn-book::after { animation: none; background: var(--color-gold-300); } }
+
+@keyframes hero-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }

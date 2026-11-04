@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/islands/Header.tsx';
-import Hero from '../components/HeroSection.astro';
+import Header from '../components/islands/Header2.tsx';
+import HeroSlider from '../components/islands/HeroSlider.tsx';
 import About from '../components/AboutSection.astro';
 import Specialties from '../components/FocusSection.astro';
 import WhyLoveUs from '../components/WhySection.astro';
@@ -21,7 +21,7 @@ import { site } from '../data/site';
 <BaseLayout title="Zion Physical Therapy | Home 2" noindex>
   <Header client:load nav={site.nav} phone={site.phone} phoneHref={site.phoneHref} bookingUrl={site.bookingUrl} />
   <main id="content" class="pb-14 lg:pb-0">
-    <Hero />
+    <HeroSlider client:load phone={site.phone} phoneHref={site.phoneHref} bookingUrl={site.bookingUrl} />
     <About />
     <Services />
     <Specialties />
