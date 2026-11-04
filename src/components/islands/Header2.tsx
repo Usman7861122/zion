@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { ListenButton } from '../ui/listen-button';
 import { ThemeSwitcher } from '../ui/theme-switcher';
 import { ArrowUpRight, ChevronDown, Phone, X } from 'lucide-react';
 
@@ -114,7 +113,6 @@ export default function Header2({ nav, phone, phoneHref, bookingUrl }: Props) {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <div className="hidden 2xl:block"><ListenButton /></div>
           <a href={bookingUrl} className="btn-gold btn-book hidden !min-h-11 whitespace-nowrap !px-6 sm:inline-flex">Book Appointment</a>
           <ThemeSwitcher />
           <button type="button" className="inline-flex size-12 items-center justify-center rounded-lg text-cream-50 xl:hidden" aria-label="Open menu" aria-expanded={open} aria-controls="mobile-menu-2" onClick={() => setOpen(true)}>
@@ -171,7 +169,6 @@ export default function Header2({ nav, phone, phoneHref, bookingUrl }: Props) {
                     </div>
                   );
                 })}
-                <div className="mt-6 flex items-center justify-between border-t border-cream-50/10 pt-5"><ListenButton showLabel /></div>
                 <div className="mt-4 flex items-center justify-between"><span className="text-sm uppercase tracking-[0.2em] text-sand-200">Theme</span><ThemeSwitcher /></div>
                 <div className="mt-6 flex flex-col gap-3">
                   <a href={bookingUrl} onClick={() => setOpen(false)} className="btn-gold btn-book justify-center">Book Appointment</a>
