@@ -47,7 +47,7 @@ export const site = {
       children: [
         { label: 'Upper East Side', href: '/locations/upper-east-side', icon: 'pin', description: '241 E 86th St, Suite 2B' },
         { label: 'Upper West Side', href: '/locations/upper-west-side', icon: 'pin', description: '310 West 72nd Street, Suite 1G' },
-        { label: 'Jersey City', href: '/locations/jersey-city', icon: 'pin', description: '525 Washington Blvd, 2nd Floor' },
+        { label: 'Jersey City', href: '/locations/jersey-city', icon: 'pin', description: '525 Washington Blvd, inside Fitness Factory' },
         { label: 'Westport', href: '/locations/westport', icon: 'pin', description: '1555 Post Road East, Suite 102' },
       ],
     },
@@ -60,7 +60,7 @@ export const site = {
 export const locations = [
   { name: 'Upper East Side', area: 'Manhattan, NY', lines: ['241 E 86th St, Suite 2B', 'New York, NY 10028'], hss: true },
   { name: 'Upper West Side', area: 'Manhattan, NY', lines: ['310 West 72nd Street, Suite 1G', 'New York, NY 10023'], hss: true },
-  { name: 'Jersey City', area: 'New Jersey', lines: ['525 Washington Blvd, 2nd Floor', 'Jersey City, NJ 07310'], hss: false },
+  { name: 'Jersey City', area: 'New Jersey', lines: ['525 Washington Blvd, inside Fitness Factory', 'Jersey City, NJ 07310'], hss: false },
   { name: 'Westport', area: 'Connecticut', lines: ['1555 Post Road East, Suite 102', 'Westport, CT 06880'], hss: false },
 ];
 

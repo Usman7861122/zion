@@ -48,7 +48,7 @@ const ld = {
       url: url('/about-us'),
       telephone: '+1-212-353-8693',
       faxNumber: '+1-347-507-5510',
-      address: { '@type': 'PostalAddress', streetAddress: loc.lines[0], addressLocality: loc.lines[1].split(',')[0], addressRegion: loc.lines[1].split(', ')[1].split(' ')[0], postalCode: loc.lines[1].split(' ').pop(), addressCountry: 'US' },
+      address: { '@type': 'PostalAddress', streetAddress: loc.lines[0].split(',')[0], addressLocality: loc.lines[1].split(',')[0], addressRegion: loc.lines[1].split(', ')[1].split(' ')[0], postalCode: loc.lines[1].split(' ').pop(), addressCountry: 'US' },
     })),
     { '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
   ],

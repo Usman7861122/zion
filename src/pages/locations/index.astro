@@ -7,7 +7,7 @@ import { services } from '../../data/care';
 const embed = `https://www.google.com/maps?q=${encodeURIComponent(locations.map((l) => l.lines.join(', ')).join(' | '))}&output=embed`;
 const ld = locationPages.map((p) => { const l = locations[p.locIndex]; return {
   '@context': 'https://schema.org', '@type': 'Physiotherapy', name: `Zion Physical Therapy, ${p.name}`, telephone: p.phone, url: new URL(`/locations/${p.slug}`, Astro.site).href,
-  address: { '@type': 'PostalAddress', streetAddress: l.lines[0], addressLocality: l.lines[1].split(',')[0], addressRegion: l.lines[1].split(', ')[1]?.split(' ')[0], postalCode: l.lines[1].split(' ').pop() } }; });
+  address: { '@type': 'PostalAddress', streetAddress: l.lines[0].split(',')[0], addressLocality: l.lines[1].split(',')[0], addressRegion: l.lines[1].split(', ')[1]?.split(' ')[0], postalCode: l.lines[1].split(' ').pop() } }; });
 ---
 <PageShell title="Physical Therapy Locations: Upper East Side, Upper West Side, Jersey City & Westport | Zion PT" description="Find a Zion Physical Therapy clinic on the Upper East Side, Upper West Side, in Jersey City or in Westport, CT. Get directions, meet the team and see the services at each clinic." crumb="Locations" eyebrow="Our clinics" h1="Four clinics, one standard of care" lede="Visit us in Manhattan, Jersey City or Westport. Every clinic offers one-on-one care with a Doctor of Physical Therapy.">
   <script type="application/ld+json" set:html={JSON.stringify(ld)} />

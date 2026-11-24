@@ -24,7 +24,7 @@ const apple = `https://maps.apple.com/?q=${encodeURIComponent(addr)}`;
 const dayMap: Record<string, string> = { Monday: 'Mo', Tuesday: 'Tu', Wednesday: 'We', Thursday: 'Th', Friday: 'Fr', Saturday: 'Sa', Sunday: 'Su' };
 const ld = {
   '@context': 'https://schema.org', '@type': 'Physiotherapy', name: `Zion Physical Therapy, ${p.name}`, telephone: p.phone, faxNumber: p.fax, image: p.photos[0].src,
-  address: { '@type': 'PostalAddress', streetAddress: loc.lines[0], addressLocality: loc.lines[1].split(',')[0], addressRegion: loc.lines[1].split(', ')[1]?.split(' ')[0], postalCode: loc.lines[1].split(' ').pop() },
+  address: { '@type': 'PostalAddress', streetAddress: loc.lines[0].split(',')[0], addressLocality: loc.lines[1].split(',')[0], addressRegion: loc.lines[1].split(', ')[1]?.split(' ')[0], postalCode: loc.lines[1].split(' ').pop() },
   openingHoursSpecification: p.hours.filter((d) => d.open).map((d) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: d.day, opens: d.open, closes: d.close })),
 };
 const serviceHref = (slug: string) => `/services/${slug}/${p.slug}`;
@@ -131,7 +131,7 @@ const serviceHref = (slug: string) => `/services/${slug}/${p.slug}`;
             <li class="flex">
               <Reveal client:visible delay={(i % 4) * 0.08} className="flex w-full">
                 <article class="group relative flex w-full flex-col rounded-xl border border-sand-300/70 bg-cream-50 p-3 transition-all duration-500 hover:-translate-y-2 hover:border-gold-500/70 hover:shadow-[0_30px_70px_-30px_rgba(16,33,27,0.45)] motion-reduce:hover:translate-y-0 sm:p-4">
-                  <div class="aspect-[4/5] overflow-hidden rounded-lg bg-forest-900"><img src={m.photo} alt={`Portrait of ${m.name}`} width="800" height="1000" loading="lazy" class="size-full object-cover transition-transform duration-[1200ms] group-hover:scale-105" /></div>
+                  <div class="aspect-[4/5] overflow-hidden rounded-lg bg-forest-900">{m.photo ? <img src={m.photo} alt={`Portrait of ${m.name}`} width="800" height="1000" loading="lazy" class="size-full object-cover transition-transform duration-[1200ms] group-hover:scale-105" /> : <div class="grid size-full place-items-center text-6xl font-light text-gold-300" aria-hidden="true">{m.name.replace(/^(Dr\.\s+)/, '').split(' ').map((w) => w[0]).slice(0, 2).join('')}</div>}</div>
                   <div class="px-2 pb-2 pt-5">
                     <h3 class="text-2xl text-forest-900 group-hover:text-gold-700">{m.slug ? <a href={m.href} class="after:absolute after:inset-0 after:content-['']">{m.name}</a> : m.name}</h3>
                     <p class="mt-2 text-sm font-medium uppercase tracking-[0.12em] text-gold-700">{m.role}</p>
