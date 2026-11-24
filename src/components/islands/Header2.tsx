@@ -49,7 +49,7 @@ export default function Header2({ nav, phone, phoneHref, bookingUrl }: Props) {
   return (
     <header className={`group/header fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled ? 'bg-forest-950/90 shadow-[0_1px_0_rgba(214,193,119,0.2)] backdrop-blur-md' : 'bg-gradient-to-b from-forest-950/80 to-transparent'}`}>
       <div className="container-x flex h-[76px] items-center justify-between gap-6 lg:h-[92px]">
-        <a href="/home-2" aria-label="Zion Physical Therapy, home" className="shrink-0">
+        <a href="/" aria-label="Zion Physical Therapy, home" className="shrink-0">
           <img src="/logos/zion-logo.png" alt="Zion Physical Therapy" width="500" height="130" className="h-11 w-auto lg:h-[3.4rem]" />
         </a>
 
@@ -137,7 +137,7 @@ export default function Header2({ nav, phone, phoneHref, bookingUrl }: Props) {
               className="fixed inset-y-0 right-0 z-[70] flex w-[88%] max-w-sm flex-col overflow-y-auto border-l border-gold-300/20 bg-forest-950 xl:hidden"
             >
               <div className="flex h-[76px] shrink-0 items-center justify-between px-5">
-                <a href="/home-2" onClick={() => setOpen(false)} aria-label="Zion Physical Therapy, home"><img src="/logos/zion-logo.png" alt="Zion Physical Therapy" width="500" height="130" className="h-10 w-auto" /></a>
+                <a href="/" onClick={() => setOpen(false)} aria-label="Zion Physical Therapy, home"><img src="/logos/zion-logo.png" alt="Zion Physical Therapy" width="500" height="130" className="h-10 w-auto" /></a>
                 <button type="button" onClick={() => setOpen(false)} aria-label="Close menu" className="inline-flex size-11 items-center justify-center rounded-lg border border-cream-50/20 text-cream-50 hover:border-gold-300 hover:text-gold-300"><X aria-hidden="true" className="size-5" /></button>
               </div>
               <nav aria-label="Mobile" className="flex flex-1 flex-col px-5 pb-6 pt-2">

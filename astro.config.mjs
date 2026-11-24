@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://zionpt.com',
+  redirects: { '/home-2': '/' },
   integrations: [react()],
   vite: { plugins: [tailwindcss()] },
 });
