@@ -1,4 +1,4 @@
-name: Store files in S3
+name: Build site and upload to S3
 
 on:
   push:
@@ -9,17 +9,32 @@ permissions:
   contents: read
 
 jobs:
-  upload:
+  deploy:
     runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Upload files to S3 (access keys, no OIDC)
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Build the website
         run: |
-          aws s3 sync . s3://zion-site/ --delete \
-            --exclude ".git/*" --exclude ".github/*" \
-            --exclude "node_modules/*" --exclude "dist/*" --exclude ".astro/*"
+          npm ci
+          npm run build
+
+      # Website files at the bucket root (this is what Cloudflare will serve)
+      - name: Upload website (dist) to bucket root
+        run: |
+          aws s3 sync dist s3://zion-site/ --delete --exclude "source/*"
+
+      # Source code kept in a separate folder
+      - name: Upload source code to source/ folder
+        run: |
+          aws s3 sync . s3://zion-site/source/ --delete \
+            --exclude ".git/*" --exclude "node_modules/*" --exclude "dist/*" --exclude ".astro/*"
