@@ -45,7 +45,7 @@ export const categories: Category[] = [
         excerpt: 'Taden is a Columbia University graduate, where he earned his Doctorate of Physical Therapy. His previous education includes a bachelor’s degree in Exercise Science and a minor in Strength & Conditioning from the University of Delaware.' },
       { name: 'Erika Moran', creds: ['DPT'], role: 'UWS Physical Therapist', photo: '/images/team/erika.webp', href: 'https://zionpt.com/meet-erika/',
         excerpt: 'Erika earned her Doctorate in Physical Therapy and Bachelor of Science in Rehabilitation Science with a minor in Psychology from Northeastern University. Throughout her career, she has worked at various clinics in the Greater Boston area before recently relocating to New York City.' },
-      { name: 'Dr. Lauren Vincze', creds: ['DPT', 'CSCS'], role: 'UWS Physical Therapist', href: '',
+      { name: 'Dr. Lauren Vincze', creds: ['DPT', 'CSCS'], role: 'UWS Physical Therapist', href: '', photo: '/images/team/lauren.webp',
         excerpt: 'Lauren Vincze is a Doctor of Physical Therapy with a passion for helping women feel empowered, confident, and connected to their bodies. She graduated from New York University with her Doctorate in Physical Therapy in 2026…' },
     ],
   },
@@ -64,7 +64,7 @@ export const categories: Category[] = [
     intro: 'Right on Washington Boulevard, our Jersey City clinic offers the same one-on-one care across the river, guided by Dr. Staci Levine.', photo: '/images/real/loc-jersey.webp', alt: 'Inside the Jersey City clinic', points: ['Pelvic health', 'Orthopedic care', 'Personal plans'],
     people: [
       staci,
-      { name: 'Dr. Michael Muldoon', creds: ['DPT'], role: 'Jersey City Physical Therapist', href: '',
+      { name: 'Dr. Michael Muldoon', creds: ['DPT'], role: 'Jersey City Physical Therapist', href: '', photo: '/images/team/michael.webp',
         excerpt: 'Michael Muldoon is a New Jersey native with a passion for movement, rehabilitation, and helping others return to the activities they love. He earned his Doctor of Physical Therapy from New York University…' },
     ],
   },
